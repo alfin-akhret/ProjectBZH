@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Biznet Cobverage Area</title>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #map-canvas {height: 200px; width: 100%; background-color: gray;}
+    </style>
+  </head>
+  <body ng-app="BzApp">
+    
+
+    <div id="wrapper" ng-controller="BzController">
+       <!-- options -->
+      <select>
+        <option ng-repeat="obj in area" value="{{obj}}">{{obj.name}}</option>
+      </select>
+      <button ng-click="displayMap()">go</button>
+      
+      <div id="map-canvas"></div>
+      
+     
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+   
+    <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/services.js"></script>
+    <script type="text/javascript" src="app/controllers.js"></script>
+  </body>
+</html>
