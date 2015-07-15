@@ -63,9 +63,11 @@ angular.module('BzApp')
 	
 	$scope.mapFirstLoad();
 	
- 	var map = new f_map(0);
- 	console.log(map.taps);
- 	console.log(map.cables);
+	var map = new f_map();
+	console.log(map.marker);
+// 	console.log(map.cables);
+	
+ 	
 });
 
 
