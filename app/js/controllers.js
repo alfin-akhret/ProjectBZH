@@ -1,6 +1,6 @@
 'use strict';
 angular.module('BzApp')
-	.controller('BzController', function($scope, s_tap){
+	.controller('BzController', function($scope, f_map){
 	
 	$scope.mapFirstLoad = function(){
 	    function initialize(){
@@ -15,7 +15,7 @@ angular.module('BzApp')
             
         }
         
-
+    
         // TAP object declaration and initialization
         var taps = [
               ['tap1', -6.2293465,106.829518, 3],
@@ -63,11 +63,9 @@ angular.module('BzApp')
 	
 	$scope.mapFirstLoad();
 	
-	// Request to server for TAP position
-	$scope.getTapPos = function(){
-	    s_tap.getTapPos();
-	};
- 	
+ 	var map = new f_map(0);
+ 	console.log(map.taps);
+ 	console.log(map.cables);
 });
 
 
