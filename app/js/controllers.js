@@ -1,6 +1,6 @@
 'use strict';
 angular.module('BzApp')
-	.controller('BzController', function($scope){
+	.controller('BzController', function($scope, s_tap){
 	
 	$scope.mapFirstLoad = function(){
 	    function initialize(){
@@ -32,8 +32,7 @@ angular.module('BzApp')
             
         function setMarkers(map, locations){
             // icons
-            // TODO : this should be from local file
-            var iconImg = "http://www.kh-uia.org.il/PublishingImages/calendar-blue-circle.png";
+            var iconImg = "app/images/calendar-blue-circle.png";
             
             // for each tap in taps
             // place new marker on the map
@@ -63,6 +62,11 @@ angular.module('BzApp')
 	}
 	
 	$scope.mapFirstLoad();
+	
+	// Request to server for TAP position
+	$scope.getTapPos = function(){
+	    s_tap.getTapPos();
+	};
  	
 });
 
