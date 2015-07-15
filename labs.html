@@ -34,6 +34,7 @@
               ['tap3', -6.2299900,106.829518, 3]
             ];
             
+        // Cable object declaration and initialization    
         var cables = [
             new google.maps.LatLng(-6.2293465,106.829518),
             new google.maps.LatLng(-6.2296700,106.829518),
@@ -41,8 +42,12 @@
         ];
             
         function setMarkers(map, locations){
+            // icons
+            // TODO : this should be from local file
             var iconImg = "http://www.kh-uia.org.il/PublishingImages/calendar-blue-circle.png";
             
+            // for each tap in taps
+            // place new marker on the map
             for (var i = 0; i < taps.length; i++){
                 var myLatLng = new google.maps.LatLng(locations[i][1], locations[i][2]);
                 var marker = new google.maps.Marker({
@@ -54,6 +59,7 @@
                 
             }
             
+            // place the cable troudh markers
             var cablePath = new google.maps.Polyline({
                 path: cables,
                 geodesic: true,
@@ -64,6 +70,7 @@
             });
         }
         
+        // create map on window load
         google.maps.event.addDomListener(window, 'load', initialize);
         
         /**
