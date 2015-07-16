@@ -4,9 +4,7 @@ angular.module('BzApp')
 	
 	// map initialization (first page load)
 	var map = new f_map();
-	map.initialize();
-	
-	
+	map.initialize(true);
  	
 });
 

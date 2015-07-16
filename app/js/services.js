@@ -61,13 +61,55 @@ angular.module('BzApp')
 	})
 	
 	
+	// geolocation service
+	// add current user position to map
+	.service('s_userPosition', function(){
+		this.getCurrentPos = function(map){
+			if(navigator.geolocation) {
+			    navigator.geolocation.getCurrentPosition(function(position) {
+			      var pos = new google.maps.LatLng(position.coords.latitude,
+			                                       position.coords.longitude);
+			
+			      var infowindow = new google.maps.InfoWindow({
+			        map: map,
+			        position: pos,
+			        content: "You are here"
+			      });
+			
+			      map.setCenter(pos);
+			    }, function() {
+			      handleNoGeolocation(true, map);
+			    });
+			  } else {
+			    // Browser doesn't support Geolocation
+			    handleNoGeolocation(false, map);
+			  }
+		        
+		    function handleNoGeolocation(errorFlag, map){
+		    	if (errorFlag) {
+				    var content = 'Error: The Geolocation service failed.';
+				} else {
+				    var content = 'Error: Your browser doesn\'t support geolocation.';
+				}
+				var options = {
+				    map: map,
+				    position: new google.maps.LatLng(60, 105),
+				    content: content
+				  };
+				
+				  var infowindow = new google.maps.InfoWindow(options);
+				  map.setCenter(options.position);
+		    }
+		}
+	})
+	
 	// map provider
 	// create coverage area map
-	.factory('f_map', function(s_tap, s_cable){
-		return function (){ // TODO: add param client position
+	.factory('f_map', function(s_tap, s_cable, s_userPosition){
+		return function (){ 
 			
 			return {
-				initialize : function(){
+				initialize : function(showTap){ // TODO: add param client position
 					// map options
 					var latLng = new google.maps.LatLng(-6.2297465,106.829518);
 		            var mapOptions = {
@@ -79,12 +121,17 @@ angular.module('BzApp')
 		            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 		            
 		            // place the TAPs
-		            s_tap.placeTapMarker(map);
+		            if(showTap == true){
+		            	s_tap.placeTapMarker(map);	
+		            }
 		            
 		            // draw the cable's line
 		            s_cable.placeCableRouteMarker(map);
+		            
+		            // place current user marker
+		            s_userPosition.getCurrentPos(map);
 
-				}	
+				}
 			};
 		};
 	});
