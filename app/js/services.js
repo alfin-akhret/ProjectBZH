@@ -52,7 +52,7 @@ angular.module('BzApp')
 		            geodesic: true,
 	                strokeColor: 'blue',
 	                strokeOpacity: 1.0,
-	                strokeWeight: 1,
+	                strokeWeight: 2,
 		            map:map
 		        });
 			});
@@ -70,9 +70,11 @@ angular.module('BzApp')
 			// that gives Web content access to the location of the device
 			if(navigator.geolocation){
 				navigator.geolocation.getCurrentPosition(function(position){
-					var userIcon = 'app/images/you-are-here-icon.png';
+					var userIcon = 'app/images/maps_street_view.png';
 					
 					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					
+					console.log(pos);
 					
 					new google.maps.Marker({
 						position: pos,
