@@ -6,13 +6,34 @@ angular.module('BzApp')
 		
 		this.getTapPos = function(){
 			
-			var taps = [
+			var tapPos = [
               [-6.2293465,106.829518],
               [-6.2296700,106.829518],
               [-6.2299900,106.829518]
             ];
             
-            return taps;
+    		return tapPos;
+		}
+		
+		this.placeTapMarker = function(map){
+			
+		
+			
+			// get icons
+			var tapIcon = 'app/images/calendar-blue-circle.png';
+			
+			// get tap position
+			var tapPos = this.getTapPos();
+			
+			// place tap on the map
+			for(var i = 0; i < tapPos.length; i++){
+				var marker = new google.maps.Marker({
+                   position: new google.maps.LatLng(tapPos[i][0], tapPos[i][1]),
+                   map: map,
+                   icon:tapIcon
+                });
+			}
+            
 		}
 		
 		
@@ -21,7 +42,7 @@ angular.module('BzApp')
 	// Cable getter
 	.service('s_cable', function(s_tap){
 		
-		this.getCablesRoute = function(){
+		this.getCablesPos = function(){
 			
 			var cables = [];
 			for(var i = 0; i < s_tap.getTapPos().length; i++){
@@ -31,37 +52,41 @@ angular.module('BzApp')
 			return cables;
 		}
 		
-	})
-	
-	// Marker
-	.service('s_marker', function(s_cable){
-		
-		this.placeMarker = function(){
-			var iconImg = "app/images/calendar-blue-circle.png";
+		this.placeCableRouteMarker = function(map){
 			
-			// return s_cable.getCablesRoute()[0];
+			var cables = this.getCablesPos();
 			
-			
-			// for(var i = 0; i < s_cable.getCablesRoute().length; i++){
-			// 	var cableRoute = 
-				
-			// 	var marker = new google.maps.Marker({
-			// 		position : new google.maps.LatLng()
-			// 	});
-			// }
+			var cablePath = new google.maps.Polyline({
+                path: cables,
+                geodesic: true,
+                strokeColor: 'blue',
+                strokeOpacity: 1.0,
+                strokeWeight: 1,
+                map:map
+            });
 		}
 		
 	})
 	
 	
 	// TAP coordinate provider
-	.factory('f_map', function(s_marker){
+	.factory('f_map', function(s_tap, s_cable){
 		return function (){ // TODO: add param client position
 			
-			
-			
 			return {
-				marker: s_marker.placeMarker()
+				initialize : function(){
+					
+					var latLng = new google.maps.LatLng(-6.2297465,106.829518);
+		            var mapOptions = {
+		                center: latLng,
+		                zoom: 18
+		            }
+		            
+		            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		            s_tap.placeTapMarker(map);
+		            s_cable.placeCableRouteMarker(map);
+
+				}	
 			}
 		}
 	});
