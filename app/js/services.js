@@ -21,7 +21,7 @@ angular.module('BzApp')
 			m_tap.tapCoordinate().then(function(r){
 				for(var i = 0; i < r.tapCoordinate.length; i++){
 						
-					var marker = new google.maps.Marker({
+					new google.maps.Marker({
 		       			position: new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]),
 	                    map: map,
  	                    icon:tapIcon
@@ -47,7 +47,7 @@ angular.module('BzApp')
 					cables.push(new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]));
 				}
 				
-				var cablePath = new google.maps.Polyline({
+				new google.maps.Polyline({
 			        path: cables,
 		            geodesic: true,
 	                strokeColor: 'blue',
@@ -65,42 +65,26 @@ angular.module('BzApp')
 	// add current user position to map
 	.service('s_userPosition', function(){
 		this.getCurrentPos = function(map){
-			if(navigator.geolocation) {
-			    navigator.geolocation.getCurrentPosition(function(position) {
-			      var pos = new google.maps.LatLng(position.coords.latitude,
-			                                       position.coords.longitude);
 			
-			      var infowindow = new google.maps.InfoWindow({
-			        map: map,
-			        position: pos,
-			        content: "You are here"
-			      });
-			
-			      map.setCenter(pos);
-			    }, function() {
-			      handleNoGeolocation(true, map);
-			    });
-			  } else {
-			    // Browser doesn't support Geolocation
-			    handleNoGeolocation(false, map);
-			  }
-		        
-		    function handleNoGeolocation(errorFlag, map){
-		    	if (errorFlag) {
-				    var content = 'Error: The Geolocation service failed.';
-				} else {
-				    var content = 'Error: Your browser doesn\'t support geolocation.';
-				}
-				var options = {
-				    map: map,
-				    position: new google.maps.LatLng(60, 105),
-				    content: content
-				  };
-				
-				  var infowindow = new google.maps.InfoWindow(options);
-				  map.setCenter(options.position);
-		    }
-		}
+			// The Navigator.geolocation read-only property returns a Geolocation object 
+			// that gives Web content access to the location of the device
+			if(navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(function(position){
+					var userIcon = 'app/images/you-are-here-icon.png';
+					
+					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					
+					new google.maps.Marker({
+						position: pos,
+						map: map,
+						icon: userIcon,
+						title: "You"
+					});
+					
+					map.setCenter(pos);
+				});
+			}
+		};
 	})
 	
 	// map provider
@@ -127,10 +111,8 @@ angular.module('BzApp')
 		            
 		            // draw the cable's line
 		            s_cable.placeCableRouteMarker(map);
-		            
-		            // place current user marker
-		            s_userPosition.getCurrentPos(map);
-
+		           
+					s_userPosition.getCurrentPos(map);
 				}
 			};
 		};
