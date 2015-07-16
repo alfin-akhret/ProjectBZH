@@ -1,11 +1,21 @@
 'use strict';
+
+// MAP Services
+// Provides Cable and TAPs installation map
+// Author: Alfin Akhret [alfin.akhret@gmail.com]
+// Company: Biznet
+// Division: Digital Marketing
+
 angular.module('BzApp')
 	
-	// TAP getter
+	// s_tap service
+	// Fetch TAP position from backend API
+	// and place TAP marker on map
 	.service('s_tap', function(){
 		
+		// get TAP's coordinate
 		this.getTapPos = function(){
-			
+			// TODO: replace this with request to Model
 			var tapPos = [
               [-6.2293465,106.829518],
               [-6.2296700,106.829518],
@@ -15,17 +25,14 @@ angular.module('BzApp')
     		return tapPos;
 		}
 		
+		// place TAP's marker on map
 		this.placeTapMarker = function(map){
 			
-		
-			
-			// get icons
 			var tapIcon = 'app/images/calendar-blue-circle.png';
 			
-			// get tap position
 			var tapPos = this.getTapPos();
 			
-			// place tap on the map
+			// place TAP on the map
 			for(var i = 0; i < tapPos.length; i++){
 				var marker = new google.maps.Marker({
                    position: new google.maps.LatLng(tapPos[i][0], tapPos[i][1]),
@@ -36,12 +43,13 @@ angular.module('BzApp')
             
 		}
 		
-		
 	})
 	
-	// Cable getter
+	// s_cable service
+	// connect all TAP's with cable line
 	.service('s_cable', function(s_tap){
 		
+		// get cable coordinate based on TAP's position
 		this.getCablesPos = function(){
 			
 			var cables = [];
@@ -52,6 +60,8 @@ angular.module('BzApp')
 			return cables;
 		}
 		
+		// create cable route marker
+		// and place it on the map
 		this.placeCableRouteMarker = function(map){
 			
 			var cables = this.getCablesPos();
@@ -69,21 +79,27 @@ angular.module('BzApp')
 	})
 	
 	
-	// TAP coordinate provider
+	// map provider
+	// create coverage area map
 	.factory('f_map', function(s_tap, s_cable){
 		return function (){ // TODO: add param client position
 			
 			return {
 				initialize : function(){
-					
+					// map options
 					var latLng = new google.maps.LatLng(-6.2297465,106.829518);
 		            var mapOptions = {
 		                center: latLng,
 		                zoom: 18
 		            }
 		            
+		            // create map
 		            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		            
+		            // place the TAPs
 		            s_tap.placeTapMarker(map);
+		            
+		            // draw the cable's line
 		            s_cable.placeCableRouteMarker(map);
 
 				}	
