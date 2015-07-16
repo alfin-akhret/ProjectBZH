@@ -11,18 +11,11 @@ angular.module('BzApp')
 	// s_tap service
 	// Fetch TAP position from backend API
 	// and place TAP marker on map
-	.service('s_tap', function(){
+	.service('s_tap', function(m_tap){
 		
 		// get TAP's coordinate
 		this.getTapPos = function(){
-			// TODO: replace this with request to Model
-			var tapPos = [
-              [-6.2293465,106.829518],
-              [-6.2296700,106.829518],
-              [-6.2299900,106.829518]
-            ];
-            
-    		return tapPos;
+			return m_tap.tapPos;
 		}
 		
 		// place TAP's marker on map
