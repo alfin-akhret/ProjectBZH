@@ -13,6 +13,7 @@ angular.module('BzApp')
 	// and place TAP marker on map
 	.service('s_tap', function(m_tap){
 		
+		
 		// place TAP's marker on map
 		this.placeTapMarker = function(map){
 			
@@ -74,8 +75,6 @@ angular.module('BzApp')
 					
 					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 					
-					console.log(pos);
-					
 					new google.maps.Marker({
 						position: pos,
 						map: map,
@@ -89,9 +88,23 @@ angular.module('BzApp')
 		};
 	})
 	
+	// get nearest TAP
+	.service('s_nearestTap', function(h_haversine, m_tap){
+		this.getDistance = function(){
+			if(navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(function(position){
+					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					m_tap.tapCoordinate().then(function(r){
+						return h_haversine.getDistance(pos, r);
+					});
+				});
+			}
+		};
+	})
+	
 	// map provider
 	// create coverage area map
-	.factory('f_map', function(s_tap, s_cable, s_userPosition){
+	.factory('f_map', function(s_tap, s_cable, s_userPosition, s_nearestTap){
 		return function (){ 
 			
 			return {
@@ -115,6 +128,9 @@ angular.module('BzApp')
 		            s_cable.placeCableRouteMarker(map);
 		           
 					s_userPosition.getCurrentPos(map);
+					
+					// get nearest TAP
+					console.log(s_nearestTap.getDistance());
 				}
 			};
 		};
