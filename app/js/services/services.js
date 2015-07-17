@@ -95,7 +95,7 @@ angular.module('BzApp')
 				navigator.geolocation.getCurrentPosition(function(position){
 					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 					m_tap.tapCoordinate().then(function(r){
-						return h_haversine.getDistance(pos, r);
+						console.log(h_haversine.getDistance(pos, r));
 					});
 				});
 			}
@@ -130,7 +130,7 @@ angular.module('BzApp')
 					s_userPosition.getCurrentPos(map);
 					
 					// get nearest TAP
-					console.log(s_nearestTap.getDistance());
+					s_nearestTap.getDistance();
 				}
 			};
 		};
