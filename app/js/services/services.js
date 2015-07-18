@@ -95,7 +95,23 @@ angular.module('BzApp')
 				navigator.geolocation.getCurrentPosition(function(position){
 					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 					m_tap.tapCoordinate().then(function(r){
-						console.log(h_haversine.getDistance(pos, r));
+						var distance = [];
+						for(var i = 0; i < r.tapCoordinate.length; i++){
+							// call the r_haversine helper
+							distance.push(h_haversine.getDistance(pos, r.tapCoordinate[i]));
+						}
+						// calculate minimum distance
+						Array.min = function( array ){
+			                return Math.min.apply( Math, array );
+			            };
+			            
+			            var minimum = (Array.min(distance)); // in meters with two decimal points
+			            var target = r.tapCoordinate[distance.indexOf(minimum)];
+			            // convert distance to meter
+			            minimum = (minimum * 1000).toFixed(2);
+			            
+			            console.log(minimum);
+			            console.log(target);
 					});
 				});
 			}
