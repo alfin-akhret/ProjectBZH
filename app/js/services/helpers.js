@@ -36,11 +36,6 @@ angular.module('BzApp')
             var c = 2 * Math.asin(Math.sqrt(a));
             output = R * c;
             
-            // TODO: this SHOULD NOT be here
-            // this SHOULD BE in the caller
-            
-            // console.log(minimum);
-            
             return output;
         }
     })

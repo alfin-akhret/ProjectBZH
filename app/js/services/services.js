@@ -90,10 +90,13 @@ angular.module('BzApp')
 	
 	// get nearest TAP
 	.service('s_nearestTap', function(h_haversine, m_tap){
-		this.getDistance = function(){
+		this.getDistance = function(map){
 			if(navigator.geolocation){
 				navigator.geolocation.getCurrentPosition(function(position){
 					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					// var pos = new google.maps.LatLng(-6.2878500,106.8059844);
+					
+            
 					m_tap.tapCoordinate().then(function(r){
 						var distance = [];
 						for(var i = 0; i < r.tapCoordinate.length; i++){
@@ -110,8 +113,34 @@ angular.module('BzApp')
 			            // convert distance to meter
 			            minimum = (minimum * 1000).toFixed(2);
 			            
-			            console.log(minimum);
-			            console.log(target);
+			            // put red dot on target
+			            new google.maps.Marker({
+			            	position: new google.maps.LatLng(target[0], target[1]),
+			            	icon: "app/images/Red-circle.png",
+			            	map:map
+			            })
+			            
+						
+						var lineCoordinates = [
+						    pos,
+						    new google.maps.LatLng(target[0], target[1])
+						  ];
+						
+						var line = new google.maps.Polyline({
+						    path: lineCoordinates,
+						    geodesic: true,
+			                strokeColor: 'red',
+			                strokeOpacity: 0.75,
+			                strokeWeight: 1,
+				            map:map
+						  });
+						  
+						var infowindow = new google.maps.InfoWindow({
+					        map: map,
+					        position: new google.maps.LatLng(target[0], target[1]),
+					        content: 'Closest TAP: ' + minimum + ' m'
+					      });
+						
 					});
 				});
 			}
@@ -146,7 +175,7 @@ angular.module('BzApp')
 					s_userPosition.getCurrentPos(map);
 					
 					// get nearest TAP
-					s_nearestTap.getDistance();
+					s_nearestTap.getDistance(map);
 				}
 			};
 		};
