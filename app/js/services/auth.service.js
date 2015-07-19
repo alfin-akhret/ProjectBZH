@@ -1,18 +1,32 @@
 'use strict';
 
+// MAP Services
+// Provides authentication subroutines
+// Author: Alfin Akhret [alfin.akhret@gmail.com]
+// Company: Biznet
+// Division: Digital Marketing
+
 angular.module('BzApp')
     .factory('f_auth', function($http, REQHEADER, s_session){
         return {
             login: function(credentials){
+                // call the backend API
                 return $http.post('app/backend/user.php', $.param(credentials), {headers: REQHEADER})
                     .success(function(data, status, headers, config){
-                        // create user session
+                        // on success and we get a return
+                        // check if user is authenticated
+                        // the api will return user data if user is authenticated
+                        // otherwise it will return nothing
                         if(data.user){
+                            // create user session using s_session service
+                            // we gonna use this later to access user spesific data from entire app
                             s_session.create(data.user.sessionId, data.user.id, data.user.role);
                             return data.user;    
                         }
                         
                     })
+                    // just in case the communication to API returning unexpected error
+                    // throw an exception here
                     .error(function(data, status, headers, config){
                         // TODO: exception due to server error or whatever
                     });
@@ -36,6 +50,11 @@ angular.module('BzApp')
     })
     
     // Authentication service event listener and dispatcher
+    // this service will be use to broadcast user state to $rootScope (entire app)
+    // we put it here to prevent bad practice for accessing rootscope from controller
+    // broadcasting and listening to $rootScope from controllers will lead to confusion
+    // since rootScope is accessible to all apps under the hood.
+    // by put it in a service we can make sure "which controller listening/broadcasting to rootScope"
     .service('s_isLogin', function($rootScope, AUTH_EVENTS){
         return {
             broadcastLoginSuccess: function(){
