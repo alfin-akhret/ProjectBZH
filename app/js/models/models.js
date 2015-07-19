@@ -12,4 +12,17 @@ angular.module('BzApp')
 				return d.promise;   
             }
         };
-    });
+    })
+    .service('m_user', function($http, $q, REQHEADER){
+        return {
+            login: function(formData){
+                var d = $q.defer();
+                $http.post("app/backend/user.php", $.param(formData), {headers: REQHEADER})
+                    .success(function(response){
+                        d.resolve(response); 
+                    });
+                return d.promise;
+            }
+            
+        }
+    })
