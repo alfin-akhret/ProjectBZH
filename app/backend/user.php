@@ -1,5 +1,7 @@
 <?php
     
+    echo $_POST;
+    
     $users = array(
         ['u' => 'alfin', 'p' => '123456'],
         ['u' => 'admin', 'p' => 'pass']

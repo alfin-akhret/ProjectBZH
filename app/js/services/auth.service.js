@@ -1,41 +1,46 @@
 'use strict';
 
 angular.module('BzApp')
-    .factory('s_auth', function($http, $cookieStore, $rootScope, $timeOut, m_user){
-        var service = {};
-        service.login = login;
-        service.setCredential = setCredential;
-        service.clearCredential = clearCredential;
+    .factory('f_auth', function($http, Session){
         
-        return service;
+        var authService = {};
         
-        function login(username, password, callback){
-            // dummy auth for testing
-            $timeOut(function(){
-                var response;
-                s_user.getUsername(username)
-                    .then(function(user){
-                        if(user !== null && user.password === password){
-                            response = {success: true};
-                        } else {
-                            response = {success: false, message:"username or password is incorrect"};
-                        }
-                        callback(response);
-                    });
-            }, 1000);
+        authService.login(function(credentials){
+            return $http.post('app/backend/user.php')
+                .then (function(r){
+                    Session.create(r.data.id, r.data.user.id, r.data.user.role);
+                    return r.data.user;
+                });
+        });
+        
+        authService.isAuthenticated = function(){
+            return !!Session.userId;
+        };
+        
+        authService.isAuthorized = function(){
+            if(!angular.isArray(authorizedRoles)){
+                authorizedRoles = [authorizedRoles];
+            }
             
-            // real authentication
-            // $http.post('/api/authenticate', { username: username, password: password })
-            //     .success(function (response) {
-            //         callback(response);
-            //     });
+            return (authService.isAuthenticated() && authorizedRoles.indexOf(Session.userRole) !== -1);
+        };
         
-        }
+        return authService;
         
-        function setCredential(){
-            $rootScope.globals = {};
-            $cookieStore.remove('globals');
-            $http.default.headers.common.Authorization = 'Basic';
-        }
+        
         
     })
+    .service('Session', function(){
+       this.create = function(sessionId, userId, userRole){
+           this.id = sessionId;
+           this.userId = userId;
+           this.userRoles = userRole;
+       };
+       
+       this.destroy = function(){
+            this.id = null;
+            this.userId = null;
+            this.userRoles = null;
+       };
+    });
+    

@@ -15,9 +15,10 @@ angular.module('BzApp')
     })
     .service('m_user', function($http, $q, REQHEADER){
         return {
-            login: function(formData){
+            login: function(credentials){
+                // TODO: add exception
                 var d = $q.defer();
-                $http.post("app/backend/user.php", $.param(formData), {headers: REQHEADER})
+                $http.post("app/backend/user.php", $.param(credentials), {headers: REQHEADER})
                     .success(function(response){
                         d.resolve(response); 
                     });
