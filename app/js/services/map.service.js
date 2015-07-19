@@ -1,0 +1,43 @@
+'use strict';
+
+// MAP Services
+// Provides Cable and TAPs installation map
+// Author: Alfin Akhret [alfin.akhret@gmail.com]
+// Company: Biznet
+// Division: Digital Marketing
+
+angular.module('BzApp')
+	
+	// map provider
+	// create coverage area map
+	.factory('f_map', function(s_tap, s_cable, s_userPosition, s_nearestTap){
+		return function (){ 
+			
+			return {
+				initialize : function(showTap){ // TODO: add param client position
+					// map options
+					var latLng = new google.maps.LatLng(-6.2297465,106.829518);
+		            var mapOptions = {
+		                center: latLng,
+		                zoom: 18
+		            };
+		            
+		            // create map
+		            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		            
+		            // place the TAPs
+		            if(showTap == true){
+		            	s_tap.placeTapMarker(map);	
+		            }
+		            
+		            // draw the cable's line
+		            s_cable.placeCableRouteMarker(map);
+		           
+					s_userPosition.getCurrentPos(map);
+					
+					// get nearest TAP
+					s_nearestTap.getDistance(map);
+				}
+			};
+		};
+	});

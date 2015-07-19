@@ -13,17 +13,7 @@
     
     <div id="wrapper" ng-controller="MainController">
         
-        <div ng-controller="AuthController">
-            <form ng-submit="login(credentials)">
-                <input type="text" name="username" ng-model="credentials.username"/>
-                <input type="text" name="password" ng-model="credentials.password"/>
-                <button type="submit" name="submit">login</button>
-            </form>
-        </div>
-        
         <div id="map-canvas"></div>
-        
-         
     
     </div>
     
@@ -33,9 +23,9 @@
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
     <script type="text/javascript" src="app/js/app.js"></script>
-    <script type="text/javascript" src="app/js/models/models.js"></script>
-    <script type="text/javascript" src="app/js/services/services.js"></script>
-    <script type="text/javascript" src="app/js/services/helpers.js"></script>
+    <script type="text/javascript" src="app/js/services/marker.service.js"></script>
+    <script type="text/javascript" src="app/js/services/map.service.js"></script>
+    <script type="text/javascript" src="app/js/helpers/haversine.js"></script>
     <script type="text/javascript" src="app/js/controllers/controllers.js"></script>
     
 </body>

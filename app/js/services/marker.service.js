@@ -1,17 +1,10 @@
 'use strict';
 
-// MAP Services
-// Provides Cable and TAPs installation map
-// Author: Alfin Akhret [alfin.akhret@gmail.com]
-// Company: Biznet
-// Division: Digital Marketing
-
 angular.module('BzApp')
-	
-	// s_tap service
+    // s_tap service
 	// Fetch TAP position from backend API
 	// and place TAP marker on map
-	.service('s_tap', function(m_tap){
+	.service('s_tap', function($http, $q){
 		
 		
 		// place TAP's marker on map
@@ -19,7 +12,7 @@ angular.module('BzApp')
 			
 			var tapIcon = 'app/images/calendar-blue-circle.png';
 			
-			m_tap.tapCoordinate().then(function(r){
+			this.tapCoordinate().then(function(r){
 				for(var i = 0; i < r.tapCoordinate.length; i++){
 						
 					new google.maps.Marker({
@@ -31,17 +24,26 @@ angular.module('BzApp')
 			});
 		};
 		
+		this.tapCoordinate = function(){
+                var d = $q.defer();
+				$http.get("app/dummies/taps.json")			// TODO: this should called backend scripts
+					.success(function(response){
+						d.resolve(response);
+				});
+				return d.promise;   
+            };
+		
 	})
 	
 	// s_cable service
 	// connect all TAP's with cable line
-	.service('s_cable', function(m_tap){
+	.service('s_cable', function(s_tap){
 		
 		// create cable route marker
 		// and place it on the map
 		this.placeCableRouteMarker = function(map){
 			
-			m_tap.tapCoordinate().then(function(r){
+			s_tap.tapCoordinate().then(function(r){
 				var cables = [];
 		
 				for(var i = 0; i < r.tapCoordinate.length; i++){
@@ -89,7 +91,7 @@ angular.module('BzApp')
 	})
 	
 	// get nearest TAP
-	.service('s_nearestTap', function(h_haversine, m_tap){
+	.service('s_nearestTap', function(h_haversine, s_tap){
 		this.getDistance = function(map){
 			if(navigator.geolocation){
 				navigator.geolocation.getCurrentPosition(function(position){
@@ -97,7 +99,7 @@ angular.module('BzApp')
 					// var pos = new google.maps.LatLng(-6.2878500,106.8059844);
 					
             
-					m_tap.tapCoordinate().then(function(r){
+					s_tap.tapCoordinate().then(function(r){
 						var distance = [];
 						for(var i = 0; i < r.tapCoordinate.length; i++){
 							// call the r_haversine helper
@@ -146,37 +148,3 @@ angular.module('BzApp')
 			}
 		};
 	})
-	
-	// map provider
-	// create coverage area map
-	.factory('f_map', function(s_tap, s_cable, s_userPosition, s_nearestTap){
-		return function (){ 
-			
-			return {
-				initialize : function(showTap){ // TODO: add param client position
-					// map options
-					var latLng = new google.maps.LatLng(-6.2297465,106.829518);
-		            var mapOptions = {
-		                center: latLng,
-		                zoom: 18
-		            };
-		            
-		            // create map
-		            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-		            
-		            // place the TAPs
-		            if(showTap == true){
-		            	s_tap.placeTapMarker(map);	
-		            }
-		            
-		            // draw the cable's line
-		            s_cable.placeCableRouteMarker(map);
-		           
-					s_userPosition.getCurrentPos(map);
-					
-					// get nearest TAP
-					s_nearestTap.getDistance(map);
-				}
-			};
-		};
-	});
