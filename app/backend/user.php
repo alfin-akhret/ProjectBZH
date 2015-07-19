@@ -1,17 +1,20 @@
 <?php
-    
-    echo $_POST;
+ 
     
     $users = array(
-        ['u' => 'alfin', 'p' => '123456'],
-        ['u' => 'admin', 'p' => 'pass']
+        ['u' => 'alfin', 'p' => '123', 'id'=>1, 'role'=>'admin', 'sessionId' => ''],
+        ['u' => 'admin', 'p' => 'pass', 'id'=>2, 'role'=>'admin', 'sessionId' => '']
     );
     
     $response;
     
     foreach($users as $user){
         if($_POST['username'] == $user['u'] && $_POST['password'] == $user['p']){
-            $response = ['login' => true];
+            $user['sessionId'] = 'sess01';
+            $response = array(
+                'login' => true,
+                'user' => $user
+            );
             break;
         } else {
             $response = ['login' => false];

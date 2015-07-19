@@ -1,6 +1,6 @@
 'use strict';
 angular.module('BzApp')
-	.controller('MainController', function($scope, f_map, h_haversine){
+	.controller('MainController', function($scope, f_map, h_haversine, s_isLogin){
 	
 		// // users
 		// $scope.currentUser = null;
@@ -12,8 +12,13 @@ angular.module('BzApp')
 		// }
 		
 		// map initialization (first page load)
-		var map = new f_map();
-		map.initialize(true);
+		// var map = new f_map();
+		// map.initialize(true);
+
+		s_isLogin.listen(function(){
+			console.log('LOGGED IN YEAAHH!!');	
+		});
+
 	})
 	
 
