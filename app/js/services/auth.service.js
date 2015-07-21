@@ -30,6 +30,20 @@ angular.module('BzApp')
                     .error(function(data, status, headers, config){
                         // TODO: exception due to server error or whatever
                     });
+            },
+            isAuthenticated: function(){
+                return !!s_session.userId;
+            },
+            isAuthorized: function(authorizedRoles){
+                // TODO: ini masih ngaco! damn
+                
+                // if(!angular.isArray(authorizedRoles)){
+                //     authorizedRoles = [authorizedRoles];
+                // }
+                
+                // this.isAuthenticated();
+                
+                // return (this.isAuthenticated() && authorizedRoles.indexOf(s_session.userRole) !== -1);
             }
         };
     })
@@ -49,12 +63,12 @@ angular.module('BzApp')
         }; 
     })
     
-    // Authentication service event listener and dispatcher
+    // Authentication service event listener and broadcaster
     // this service will be use to broadcast user state to $rootScope (entire app)
-    // we put it here to prevent bad practice for accessing rootscope from controller
+    // we put it here to prevent bad practice for accessing rootscope from controller.
     // broadcasting and listening to $rootScope from controllers will lead to confusion
     // since rootScope is accessible to all apps under the hood.
-    // by put it in a service we can make sure "which controller listening/broadcasting to rootScope"
+    // by put it in a service we can make sure "which controller listen to what"
     .service('s_isLogin', function($rootScope, AUTH_EVENTS){
         return {
             broadcastLoginSuccess: function(){

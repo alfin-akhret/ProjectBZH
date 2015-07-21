@@ -122,7 +122,7 @@ angular.module('BzApp')
 			            	map:map
 			            })
 			            
-						
+						// put red line to see the connection between target and current user position
 						var lineCoordinates = [
 						    pos,
 						    new google.maps.LatLng(target[0], target[1])
@@ -136,7 +136,9 @@ angular.module('BzApp')
 			                strokeWeight: 1,
 				            map:map
 						  });
-						  
+						
+						// display info window
+						// containing target distance information
 						var infowindow = new google.maps.InfoWindow({
 					        map: map,
 					        position: new google.maps.LatLng(target[0], target[1]),

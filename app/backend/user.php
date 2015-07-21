@@ -13,7 +13,7 @@
             $user['sessionId'] = 'sess01';
             $response = array(
                 'login' => true,
-                'user' => $user
+                'user' => ['u' => 'alfin','id'=>1, 'role'=>'admin']
             );
             break;
         } else {
