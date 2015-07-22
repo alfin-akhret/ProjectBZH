@@ -95,7 +95,7 @@ angular.module('BzApp')
 					        path: [],
 					        strokeColor: '#00B7FF',
 					        strokeWeight: 10,
-					        strokeOpacity: 1,
+					        strokeOpacity: .65,
 					        map:map
 					    });
 					    

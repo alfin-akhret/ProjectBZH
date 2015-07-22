@@ -1,6 +1,7 @@
 'use strict';
 angular.module('BzApp')
 	.controller('MainController', function($scope, f_map, h_haversine){
+		// check user's role
 		if (typeof userRole !== 'undefined') {
 			$scope.userRole = userRole;
 			

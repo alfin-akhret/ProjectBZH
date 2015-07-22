@@ -26,7 +26,7 @@
         ?>
         
         
-        <h1>Engineer</h1>
+        <h1>Engineer View</h1>
         <a href="app/backend/logout.php">Logout</a>
         
         <!-- dummy test for installation location -->
