@@ -13,8 +13,8 @@ angular.module('BzApp')
 		}
 		
 		// map initialization (first page load)
-		// var map = new f_map();
-		// map.initialize(true);
+		var map = new f_map();
+		map.initialize(true);
 
 		s_isLogin.listen(function(){
 			console.log("Logged in");	
