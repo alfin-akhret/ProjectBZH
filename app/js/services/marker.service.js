@@ -63,6 +63,72 @@ angular.module('BzApp')
 		
 	})
 	
+	// alternate cable service.
+	.factory('s_cable2', function(s_tap){
+		
+		return {
+			placeCableRouteMarker: function(map){
+			
+				s_tap.tapCoordinate().then(function(r){
+					var ori= [];
+					var dest = [];
+				
+					// http://jsfiddle.net/cnwMG/7/
+					var bounds = new google.maps.LatLngBounds();
+				
+					// generate origin coordinate 
+					for(var i = 0; i < r.tapCoordinate.length; i++){
+						ori.push(new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]));
+					}
+					
+					// generate destination coordinate
+					for(var i = 1; i < r.tapCoordinate.length; i++){
+						dest.push(new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]));
+					}
+					
+					for (var i=0; i < dest.length; i++){
+				    	calcRoute(ori[i], dest[i]);
+				    }
+				    
+				    function calcRoute(source,destination){
+						var polyline = new google.maps.Polyline({
+					        path: [],
+					        strokeColor: '#00B7FF',
+					        strokeWeight: 6,
+					        strokeOpacity: 1
+					    });
+					    
+					   var directionsService = new google.maps.DirectionsService(); 
+					   var request = { 
+					        origin:source, 
+					        destination: destination, 
+					        travelMode: google.maps.DirectionsTravelMode.WALKING 
+					    };
+					    
+					    directionsService.route(request, function(result, status) { 
+					        if (status == google.maps.DirectionsStatus.OK) {
+					            var path = result.routes[0].overview_path;
+					            
+					            $(path).each(function(index, item) {
+					                polyline.getPath().push(item);
+					                bounds.extend(item);
+					            })
+					            
+					            polyline.setMap(map);
+					            map.fitBounds(bounds);
+					        }
+					    });
+						
+					}
+					
+				});
+			},
+		};
+		
+	})
+	
+	// TODO: need one more function to get user address based on input.
+	
 	
 	// geolocation service
 	// add current user position to map

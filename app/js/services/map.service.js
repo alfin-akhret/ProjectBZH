@@ -10,11 +10,11 @@ angular.module('BzApp')
 	
 	// map provider
 	// create coverage area map
-	.factory('f_map', function(s_tap, s_cable, s_userPosition, s_nearestTap){
+	.factory('f_map', function(s_tap, s_cable2, s_userPosition, s_nearestTap){
 		return function (){ 
 			
 			return {
-				initialize : function(showTap){ // TODO: add param client position
+				initialize : function(showTap, showDistance){ // TODO: add param client position
 					// map options
 					var latLng = new google.maps.LatLng(-6.2297465,106.829518);
 		            var mapOptions = {
@@ -41,13 +41,16 @@ angular.module('BzApp')
 		            	s_tap.placeTapMarker(map);	
 		            }
 		            
+		            if(showDistance == true){
+		            	s_userPosition.getCurrentPos(map);
+						// get nearest TAP
+						s_nearestTap.getDistance(map);
+		            }
+		            
 		            // draw the cable's line
-		            s_cable.placeCableRouteMarker(map);
+		            s_cable2.placeCableRouteMarker(map);
 		           
-					s_userPosition.getCurrentPos(map);
 					
-					// get nearest TAP
-					s_nearestTap.getDistance(map);
 				}
 			};
 		};

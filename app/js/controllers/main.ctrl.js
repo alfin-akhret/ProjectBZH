@@ -6,8 +6,11 @@ angular.module('BzApp')
 			
 			var map = new f_map();
 			if($scope.userRole.role == 'engineer'){
-				map.initialize(true);
+				map.initialize(true, true);
 			}
+		} else {
+			var map = new f_map();
+			map.initialize(false, false);
 		}
 		
 		
