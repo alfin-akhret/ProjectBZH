@@ -94,27 +94,36 @@ angular.module('BzApp')
 						var polyline = new google.maps.Polyline({
 					        path: [],
 					        strokeColor: '#00B7FF',
-					        strokeWeight: 6,
-					        strokeOpacity: 1
+					        strokeWeight: 10,
+					        strokeOpacity: 1,
+					        map:map
 					    });
 					    
-					   var directionsService = new google.maps.DirectionsService(); 
+					   var directionsService = new google.maps.DirectionsService();
+					   var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
+					   dirRenderer.setMap(map);
+					   
 					   var request = { 
 					        origin:source, 
 					        destination: destination, 
-					        travelMode: google.maps.DirectionsTravelMode.WALKING 
+					        travelMode: google.maps.DirectionsTravelMode.WALKING, 
+					    //     travelMode: google.maps.DirectionsTravelMode.DRIVING,
+  							unitSystem: google.maps.DirectionsUnitSystem.METRIC
 					    };
 					    
 					    directionsService.route(request, function(result, status) { 
 					        if (status == google.maps.DirectionsStatus.OK) {
 					            var path = result.routes[0].overview_path;
 					            
+					            // dirRenderer.setDirections(result);
+					            
+					            // $(path)....
 					            $(path).each(function(index, item) {
 					                polyline.getPath().push(item);
 					                bounds.extend(item);
 					            })
 					            
-					            polyline.setMap(map);
+					            // polyline.setMap(map);
 					            map.fitBounds(bounds);
 					        }
 					    });

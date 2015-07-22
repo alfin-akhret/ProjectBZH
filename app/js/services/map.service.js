@@ -19,7 +19,8 @@ angular.module('BzApp')
 					var latLng = new google.maps.LatLng(-6.2297465,106.829518);
 		            var mapOptions = {
 		                center: latLng,
-		                zoom: 18
+		                zoom: 18,
+		                mapTypeId: google.maps.MapTypeId.ROADMAP
 		            };
 		           
 		        
