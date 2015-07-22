@@ -18,14 +18,24 @@
 </head>
 <body ng-app="BzApp">
     <div ng-controller="MainController">
-        <h1>Engineer</h1>
-        <a href="app/backend/logout.php">Logout</a>
         <!-- dummy session handler -->
         <?php
             if($_SESSION['role'] != "engineer"){
                 header("Location: ../../index.php");
             }
         ?>
+        
+        
+        <h1>Engineer</h1>
+        <a href="app/backend/logout.php">Logout</a>
+        
+        <!-- dummy test for installation location -->
+        <form ng-submit="setInstallationLocation(coordinate)">
+            <input type="text" name="lat" placeholder="lat" ng-model="coordinate.Lat"/>
+            <input type="text" name="lng" placeholder="lon" ng-model="coordinate.Lng"/>
+            <button type="submit">Set install location</button>
+        </form>
+        
         
         <div id="map-canvas"></div>
         

@@ -14,6 +14,12 @@ angular.module('BzApp')
 		}
 		
 		
+		// set install location
+		$scope.setInstallationLocation = function(coordinate){
+			var map = new f_map();
+			map.initialize(true, true, coordinate);
+		}
+		
 		// users
 		// $scope.currentUser = null;
 		// $scope.userRoles = USER_ROLES;

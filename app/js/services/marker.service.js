@@ -165,12 +165,32 @@ angular.module('BzApp')
 		};
 	})
 	
+	// install location
+	.service('s_install', function(){
+		this.setLocation = function(map, lat, lng){
+			var userIcon = 'app/images/maps_street_view.png';
+					
+					var pos = new google.maps.LatLng(lat, lng);
+					
+					new google.maps.Marker({
+						position: pos,
+						map: map,
+						icon: userIcon,
+						title: "Install location"
+					});
+					
+					map.setCenter(pos);
+		}	
+	})
+	
 	// get nearest TAP
 	.service('s_nearestTap', function(h_haversine, s_tap){
-		this.getDistance = function(map){
-			if(navigator.geolocation){
-				navigator.geolocation.getCurrentPosition(function(position){
-					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		this.getDistance = function(map, lat, lng){
+			// if(navigator.geolocation){
+				// navigator.geolocation.getCurrentPosition(function(position){
+					// var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					var pos = new google.maps.LatLng(lat, lng);
+					
 					// var pos = new google.maps.LatLng(-6.2878500,106.8059844);
 					
             
@@ -221,7 +241,7 @@ angular.module('BzApp')
 					      });
 						
 					});
-				});
-			}
+				// });
+			// }
 		};
 	})
