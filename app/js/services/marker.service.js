@@ -35,36 +35,10 @@ angular.module('BzApp')
 		
 	})
 	
-	// s_cable service
-	// connect all TAP's with cable line
-	.service('s_cable', function(s_tap){
-		
-		// create cable route marker
-		// and place it on the map
-		this.placeCableRouteMarker = function(map){
-			
-			s_tap.tapCoordinate().then(function(r){
-				var cables = [];
-		
-				for(var i = 0; i < r.tapCoordinate.length; i++){
-					cables.push(new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]));
-				}
-				
-				new google.maps.Polyline({
-			        path: cables,
-		            geodesic: true,
-	                strokeColor: 'blue',
-	                strokeOpacity: 1.0,
-	                strokeWeight: 2,
-		            map:map
-		        });
-			});
-		};
-		
-	})
+
 	
-	// alternate cable service.
-	.factory('s_cable2', function(s_tap){
+	// cable line.
+	.factory('s_cable', function(s_tap){
 		
 		return {
 			placeCableRouteMarker: function(map){
@@ -90,6 +64,7 @@ angular.module('BzApp')
 				    	calcRoute(ori[i], dest[i]);
 				    }
 				    
+				    // best route calculation
 				    function calcRoute(source,destination){
 						var polyline = new google.maps.Polyline({
 					        path: [],
@@ -113,18 +88,19 @@ angular.module('BzApp')
 					    
 					    directionsService.route(request, function(result, status) { 
 					        if (status == google.maps.DirectionsStatus.OK) {
-					            var path = result.routes[0].overview_path;
+					            // var path = result.routes[0].overview_path;
 					            
-					            // dirRenderer.setDirections(result);
+					            dirRenderer.setDirections(result);
 					            
 					            // $(path)....
-					            $(path).each(function(index, item) {
+					            // $(path).each(function(index, item) {
+					            $(dirRenderer).each(function(index, item) {
 					                polyline.getPath().push(item);
-					                bounds.extend(item);
+					                // bounds.extend(item);
 					            })
 					            
-					            // polyline.setMap(map);
-					            map.fitBounds(bounds);
+					            polyline.setMap(map);
+					            map.fitBounds(bounds); // auto zoom
 					        }
 					    });
 						

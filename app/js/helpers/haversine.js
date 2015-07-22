@@ -12,8 +12,6 @@ angular.module('BzApp')
     // implementation of Haversine formula (https://en.wikipedia.org/wiki/Haversine_formula) 
     // to calculate distance between two points
     // @param : intallPos, targtePos
-    // TODO: for now we mock install position from current user position, 
-    // later it will defined by user input on the map
     .service('h_haversine', function(){
         this.getDistance = function(startPos, targetPos){
             

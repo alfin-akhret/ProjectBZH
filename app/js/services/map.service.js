@@ -10,7 +10,7 @@ angular.module('BzApp')
 	
 	// map provider
 	// create coverage area map
-	.factory('f_map', function(s_tap, s_cable2, s_userPosition, s_nearestTap, s_install){
+	.factory('f_map', function(s_tap, s_cable, s_userPosition, s_nearestTap, s_install){
 		return function (){ 
 			
 			return {
@@ -58,7 +58,7 @@ angular.module('BzApp')
 		            }
 		            
 		            // draw the cable's line
-		            s_cable2.placeCableRouteMarker(map);
+		            s_cable.placeCableRouteMarker(map);
 		           
 					
 				}
