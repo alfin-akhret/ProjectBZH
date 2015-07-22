@@ -8,6 +8,9 @@
     <style type="text/css">
         #map-canvas {width:100%; height:500px;}
     </style>
+    
+    
+    
 </head>
 <body ng-app="BzApp">
     
