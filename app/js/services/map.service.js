@@ -21,10 +21,21 @@ angular.module('BzApp')
 		                center: latLng,
 		                zoom: 18
 		            };
-		            
+		           
+		        
 		            // create map
 		            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 		            
+		        	// place KML overlay
+		        	var mapUrl = "http://www.biznethome.net/temp/maps/BendunganHilir.kml";
+
+                	// add KML layer
+                	var ctaLayer = new google.maps.KmlLayer({
+                    	url: mapUrl
+                	});
+                	ctaLayer.setMap(map);
+		        	
+		        
 		            // place the TAPs
 		            if(showTap == true){
 		            	s_tap.placeTapMarker(map);	

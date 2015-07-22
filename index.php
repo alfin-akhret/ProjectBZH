@@ -13,14 +13,12 @@
     
     <div id="wrapper" ng-controller="MainController">
         
-        <div ng-controller="LoginController">
-            <form ng-submit="login(credentials)" name="login-form">
-                <input type="text" name="username" ng-model="credentials.username"/>
-                <input type="text" name="password" ng-model="credentials.password"/>
+        <div>
+            <form name="login-form" action="app/backend/login.php" method="post">
+                <input type="text" name="username"/>
+                <input type="text" name="password"/>
                 <button type="submit">Login</button>
             </form>
-            
-            
         </div>
         
         <div id="map-canvas"></div>
@@ -36,12 +34,10 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
     <script src="app/js/helpers/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="app/js/app.js"></script>
-    <script type="text/javascript" src="app/js/services/auth.service.js"></script>
     <script type="text/javascript" src="app/js/services/marker.service.js"></script>
     <script type="text/javascript" src="app/js/services/map.service.js"></script>
     <script type="text/javascript" src="app/js/helpers/haversine.js"></script>
     <script type="text/javascript" src="app/js/controllers/main.ctrl.js"></script>
-    <script type="text/javascript" src="app/js/controllers/login.ctrl.js"></script>
     
 </body>
 </html>
