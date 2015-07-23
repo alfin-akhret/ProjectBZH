@@ -128,6 +128,11 @@ angular.module('BzApp')
 	// });
 	
 	.service('f_map', function(s_userPosition, s_tap, s_cable, s_radius, s_nearestTap){
+		var marker = new google.maps.Marker({
+				draggable: true,
+				// map: map,
+				// id:1
+		});
 		
 		this.initialize = function(){
 			var centerPos = new google.maps.LatLng(-6.2297465,106.829518);
@@ -170,15 +175,12 @@ angular.module('BzApp')
 			
 			// TODO: refactor to new document :)
 			
-			var marker = new google.maps.Marker();
-			marker.set('draggable', true);
-			marker.setMap(map);
-			
 			var geocoder = new google.maps.Geocoder();
 		    var infowindow = new google.maps.InfoWindow();
-					
-			function placeMarker(location) {
-				geocoder.geocode({'location': location}, function(results, status) {
+		    marker.setMap(map);
+		    
+		    function placeMarker(location){
+		    	geocoder.geocode({'location': location}, function(results, status) {
 				    if (status == google.maps.GeocoderStatus.OK) {
 				      if (results[1]) {
 				      	// map.setZoom(18);
@@ -193,33 +195,67 @@ angular.module('BzApp')
 				      window.alert('Geocoder failed due to: ' + status);
 				    }
 				});
-			}
 			
-			function geocodePosition(pos) {
-			    geocoder.geocode({
-			      'latLng': pos
-			    }, function(responses) {
-			      if (responses && responses.length > 0) {
-			        updateMarkerAddress(responses[0].formatted_address);
-			      } else {
-			        updateMarkerAddress('Cannot determine address at this location.');
-			      }
-			    });
-			}
-			
+		    }
 			// click event
 		    google.maps.event.addListener(map, 'click', function(event) {
-		    	placeMarker(event.latLng);
+		    	placeMarker(event.latLng, marker, map, geocoder, infowindow);
 			});
 			
 			// drag event
 			google.maps.event.addListener(marker, 'dragend', function() {
-				placeMarker(marker.getPosition());
+				placeMarker(marker.getPosition(), marker, map, geocoder, infowindow);
 			});
+			
+			
+		};
+		
+		
+	
+		this.activateSearchBox = function(map){
+			// Create the search box and link it to the UI element.
+			  var input = /** @type {HTMLInputElement} */(
+			      document.getElementById('pac-input'));
+			  
+			  var searchMarker = marker;
+		      
+			  var markers = [];
+			  var searchBox = new google.maps.places.SearchBox(
+			    /** @type {HTMLInputElement} */(input));
+			
+			  // Listen for the event fired when the user selects an item from the
+			  // pick list. Retrieve the matching places for that item.
+			  google.maps.event.addListener(searchBox, 'places_changed', function() {
+			    var places = searchBox.getPlaces();
+			
+			    if (places.length == 0) {
+			      return;
+			    }
+			    for (var i = 0, marker; marker = markers[i]; i++) {
+			      marker.setMap(null);
+			    }
+			
+			    // For each place, get the icon, place name, and location.
+			    markers = [];
+			    var bounds = new google.maps.LatLngBounds();
+			    for (var i = 0, place; place = places[i]; i++) {
+			
+			      
+				  searchMarker.set('position', place.geometry.location);
+			      markers.push(searchMarker);
+			      
+			
+			      bounds.extend(place.geometry.location);
+			    }
+			
+			    map.fitBounds(bounds);
+			  });
+
 		};
 		
 		this.getNearestTap = function(map){
 			
-		}
+		};
+		
 	
 	});

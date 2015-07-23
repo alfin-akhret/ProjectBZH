@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Labs</title>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&sensor=true&libraries=places"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" />
     <style type="text/css">
         #map-canvas {width:100%; height:500px;}
@@ -18,15 +18,17 @@
         
         <div>
             <!-- todo: make it modal -->
+            <!-- 
             <form name="login-form" action="app/backend/login.php" method="post">
                 <input type="text" name="username"/>
                 <input type="text" name="password"/>
                 <button type="submit">Login</button>
-            </form>
+            </form> -->
         </div>
         
-        
-        
+        <!-- search -->
+        <p>Enter your address or click on the map <br>to see if you are within Biznet Home coverage area</p>
+        <input id="pac-input" class="controls" type="text" placeholder="Enter your address">
         <div id="map-canvas"></div>
         
         

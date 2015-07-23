@@ -17,6 +17,7 @@ angular.module('BzApp')
 			f_map.showCoverageArea(map); // TODO: this should be called based on user input
 			f_map.showCoverageRadius(map);
 			f_map.addClickEvent(map);
+			f_map.activateSearchBox(map);
 		}
 		
 		
