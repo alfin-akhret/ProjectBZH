@@ -36,6 +36,39 @@ angular.module('BzApp')
 		
 	})
 	
+	// coverage radius
+	.factory('s_radius', function(s_tap){
+		return{
+			placeRadius: function(map){
+				// get s_tap position
+				s_tap.tapCoordinate().then(function(r){
+					// convert tap coordinate to google map LatLng object
+					var taps = [];
+					for(var tap in r.tapCoordinate){
+						taps.push(new google.maps.LatLng(r.tapCoordinate[tap][0], r.tapCoordinate[tap][1]));
+					}
+					
+					
+					
+					for(var tap in taps){
+						// radius options
+						var radiusOptions = {
+						    strokeOpacity: 0,
+						    strokeWeight: 0,
+						    fillColor: '#f48226',
+						    fillOpacity: 0.15,
+						    map: map,
+						    center: taps[tap],
+						    radius: 50
+						};
+						new google.maps.Circle(radiusOptions);
+					}
+					
+				});
+			}
+		}		
+	})
+	
 	// cable line refine
 	.factory('s_cable2', function(s_tap, h_haversine){
 		return {
@@ -106,7 +139,7 @@ angular.module('BzApp')
 					        path: [],
 					        strokeColor: '#00B7FF',
 					        strokeWeight: 10,
-					        strokeOpacity: 1,
+					        // strokeOpacity: 1,
 					        map:map
 					    });
 					    
