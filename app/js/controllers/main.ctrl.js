@@ -5,13 +5,18 @@ angular.module('BzApp')
 		if (typeof userRole !== 'undefined') {
 			$scope.userRole = userRole;
 			
-			var map = new f_map();
-			if($scope.userRole.role == 'engineer'){
-				map.initialize(true, true);
-			}
+			var map = f_map.initialize();
+			f_map.setCenterToCurrentUserPosition(map);
+			f_map.showCoverageArea(map);
+			f_map.showCoverageRadius(map);
+			f_map.showTaps(map);
+			
 		} else {
-			var map = new f_map();
-			map.initialize(false, false);
+			var map = f_map.initialize();
+			f_map.setCenterToCurrentUserPosition(map);
+			f_map.showCoverageArea(map); // TODO: this should be called based on user input
+			f_map.showCoverageRadius(map);
+			f_map.addClickEvent(map);
 		}
 		
 		

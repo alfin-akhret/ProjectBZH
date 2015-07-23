@@ -10,7 +10,7 @@ angular.module('BzApp')
 
     // s_circle helper
     // draw circle on map
-    .service('s_circle', function(){
+    .service('h_circle', function(){
         this.drawCircle = function(point, radius, dir){
             
             var d2r = Math.PI / 180;   // degrees to radians 

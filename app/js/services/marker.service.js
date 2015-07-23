@@ -41,7 +41,7 @@ angular.module('BzApp')
 	})
 	
 	// coverage radius
-	.factory('s_radius', function(s_tap, s_circle){
+	.factory('s_radius', function(s_tap, h_circle){
 		return{
 			placeRadius: function(map){
 				// get s_tap position
@@ -55,7 +55,7 @@ angular.module('BzApp')
 					var radius = [];
 					for(var i = 0; i < r.tapCoordinate.length; i++){
 						var tap = new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]);
-						radius.push(s_circle.drawCircle(tap, 0.025, 1));
+						radius.push(h_circle.drawCircle(tap, 0.025, 1));
 					}
 					
 					// combined all circles
@@ -65,7 +65,8 @@ angular.module('BzApp')
 		                 strokeOpacity: 0.35,
 		                 strokeWeight: 0,
 		                 fillColor: "#f48226",
-		                 fillOpacity: 0.35	
+		                 fillOpacity: 0.35,
+		                 clickable: false
 					});
 					
 					joined.setMap(map);
@@ -73,124 +74,7 @@ angular.module('BzApp')
 			}
 		};		
 	})
-	
-	// cable line refine
-	.factory('s_cable2', function(s_tap, h_haversine){
-		return {
-			placeCableRouteMarker: function(map){
-				
-				
-				// get tap coordinate
-				s_tap.tapCoordinate().then(function(r){
-					
-					// set origin var
-					var origin = [];
-					// set destination var
-					var destination = [];
-					// amount of tap coordinate to process
-					var amountOfTap = r.tapCoordinate.length;
-					
-					// initiate origin and destination
-					var initOriginAndDestination = function myself(n, originToTest){
-						if(n < (amountOfTap - 1)){
-							var distance = [];
-							var co = originToTest;
-							
-							// remove originToTest from tap array
-							var index = r.tapCoordinate.indexOf(co);
-							if(index > -1){
-								r.tapCoordinate.splice(index, 1);
-							}
-							
-							// test the origin against the rest of tap list
-							// to find nearest tap
-							for(var i = 0; i < r.tapCoordinate.length; i++){
-								distance.push(h_haversine.getDistance(co, r.tapCoordinate[i]));	
-							}
-							// calculate minimum distance
-							Array.min = function( array ){
-				                return Math.min.apply( Math, array );
-				            };
-				            
-				            var minimum = (Array.min(distance)); // in meters with two decimal points
-				            var nearestTap = r.tapCoordinate[distance.indexOf(minimum)];
-				            
-				            // push tested origin to origin array
-				            origin.push(new google.maps.LatLng(co[0], co[1]));
-				            // push nearest tap to destination array
-				            destination.push(new google.maps.LatLng(nearestTap[0], nearestTap[1]));
-				            
-				      //      var polyline = new google.maps.Polyline({
-						    //     path: [new google.maps.LatLng(co[0], co[1]), new google.maps.LatLng(nearestTap[0], nearestTap[1])],
-						    //     strokeColor: '#00B7FF',
-						    //     strokeWeight: 10,
-						    //     strokeOpacity: .65,
-						    //     map:map
-						    // });
-				            
-				            // the nearest tap as the next origin to test
-				            co = nearestTap;
-							
-							return myself(n+1, co);
-						}
-					}
-					
-					initOriginAndDestination(0, r.tapCoordinate[0]);
-			  		
-			  		// draw the line
-			  		function drawTheLine(source, target){
-			  			
-			  			var polyline = new google.maps.Polyline({
-					        path: [],
-					        strokeColor: '#f48226',
-					        strokeWeight: 10,
-					        // strokeOpacity: 1,
-					        map:map
-					    });
-					    
-					    var bounds = new google.maps.LatLngBounds();
-					    
-					   	var directionsService = new google.maps.DirectionsService();
-					   	var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
-					   	dirRenderer.setMap(map);
-					   	
-					   	var request = { 
-					        origin:source, 
-					        destination: target, 
-					        travelMode: google.maps.DirectionsTravelMode.WALKING, 
-					    //     travelMode: google.maps.DirectionsTravelMode.DRIVING,
-  							unitSystem: google.maps.DirectionsUnitSystem.METRIC
-					    };
-					    
-					    directionsService.route(request, function(result, status) { 
-					        if (status == google.maps.DirectionsStatus.OK) {
-					            // var path = result.routes[0].overview_path;
-					            
-					            dirRenderer.setDirections(result);
-					            
-					            // $(path)....
-					            // $(path).each(function(index, item) {
-					            $(dirRenderer).each(function(index, item) {
-					                polyline.getPath().push(item);
-					                // bounds.extend(item);
-					            })
-					            
-					            polyline.setMap(map);
-					            map.fitBounds(bounds); // auto zoom
-					        }
-					    });
-					   	
-			  		}
-			  		
-			  		for (var i=0; i < destination.length; i++){
-			  			console.log(origin[i] + " => "+ destination[i]);
-				    	drawTheLine(origin[i], destination[i]);
-				    }
-				});
-			}
-		}	
-	})
-	
+
 	
 	// cable line.
 	.factory('s_cable', function(s_tap, h_haversine){
@@ -298,6 +182,7 @@ angular.module('BzApp')
 						title: "You"
 					});
 					
+					map.set('zoom', 16);
 					map.setCenter(pos);
 				});
 			}
