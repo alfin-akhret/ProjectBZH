@@ -211,7 +211,7 @@ angular.module('BzApp')
 		};
 		
 		
-	
+		// search box
 		this.activateSearchBox = function(map){
 			// Create the search box and link it to the UI element.
 			  var input = /** @type {HTMLInputElement} */(
@@ -227,12 +227,13 @@ angular.module('BzApp')
 			  // pick list. Retrieve the matching places for that item.
 			  google.maps.event.addListener(searchBox, 'places_changed', function() {
 			    var places = searchBox.getPlaces();
+			    
 			
 			    if (places.length == 0) {
 			      return;
 			    }
 			    for (var i = 0, marker; marker = markers[i]; i++) {
-			      marker.setMap(null);
+			      searchMarker.setMap(null);
 			    }
 			
 			    // For each place, get the icon, place name, and location.
@@ -242,6 +243,9 @@ angular.module('BzApp')
 			
 			      
 				  searchMarker.set('position', place.geometry.location);
+				  searchMarker.set('map', map);
+				  
+				 
 			      markers.push(searchMarker);
 			      
 			
