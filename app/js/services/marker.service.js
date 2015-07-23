@@ -18,7 +18,8 @@ angular.module('BzApp')
 					new google.maps.Marker({
 		       			position: new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]),
 	                    map: map,
- 	                    icon:tapIcon
+ 	                    icon:tapIcon,
+ 	                    title: r.tapCoordinate[i].toString()
 		            });
 				}
 			});
@@ -43,13 +44,16 @@ angular.module('BzApp')
 				
 				// get tap coordinate
 				s_tap.tapCoordinate().then(function(r){
-					// // set origin var
-					// var origin = [];
-					// // set destination var
-					// var destination = [];
+					
+					// set origin var
+					var origin = [];
+					// set destination var
+					var destination = [];
+					// amount of tap coordinate to process
 					var amountOfTap = r.tapCoordinate.length;
 					
-					var drawLine = function myself(n, originToTest){
+					// initiate origin and destination
+					var initOriginAndDestination = function myself(n, originToTest){
 						if(n < (amountOfTap - 1)){
 							var distance = [];
 							var co = originToTest;
@@ -73,20 +77,18 @@ angular.module('BzApp')
 				            var minimum = (Array.min(distance)); // in meters with two decimal points
 				            var nearestTap = r.tapCoordinate[distance.indexOf(minimum)];
 				            
-				            // draw line from tested cordinate to nearestTap
-				            var origin = new google.maps.LatLng(co[0], co[1]);
-				            var destination = new google.maps.LatLng(nearestTap[0], nearestTap[1]);
-				            var CableRoute = new google.maps.Polyline({
-				            	path: [origin, destination],
-				            	strokeColor: '#00B7FF',
-						        strokeWeight: 10,
-						        strokeOpacity: .65,
-						        map:map
-				            });
+				            // push tested origin to origin array
+				            origin.push(new google.maps.LatLng(co[0], co[1]));
+				            // push nearest tap to destination array
+				            destination.push(new google.maps.LatLng(nearestTap[0], nearestTap[1]));
 				            
-				            console.log("iteration: " + n + "target left:" + r.tapCoordinate.length);
-				            console.log("origin: "+co+ " dest: "+ nearestTap);
-				            
+				      //      var polyline = new google.maps.Polyline({
+						    //     path: [new google.maps.LatLng(co[0], co[1]), new google.maps.LatLng(nearestTap[0], nearestTap[1])],
+						    //     strokeColor: '#00B7FF',
+						    //     strokeWeight: 10,
+						    //     strokeOpacity: .65,
+						    //     map:map
+						    // });
 				            
 				            // the nearest tap as the next origin to test
 				            co = nearestTap;
@@ -95,8 +97,57 @@ angular.module('BzApp')
 						}
 					}
 					
-					drawLine(0, r.tapCoordinate[0]);
-			  	
+					initOriginAndDestination(0, r.tapCoordinate[0]);
+			  		
+			  		// draw the line
+			  		function drawTheLine(source, target){
+			  			
+			  			var polyline = new google.maps.Polyline({
+					        path: [],
+					        strokeColor: '#00B7FF',
+					        strokeWeight: 10,
+					        strokeOpacity: 1,
+					        map:map
+					    });
+					    
+					    var bounds = new google.maps.LatLngBounds();
+					    
+					   	var directionsService = new google.maps.DirectionsService();
+					   	var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
+					   	dirRenderer.setMap(map);
+					   	
+					   	var request = { 
+					        origin:source, 
+					        destination: target, 
+					        travelMode: google.maps.DirectionsTravelMode.WALKING, 
+					    //     travelMode: google.maps.DirectionsTravelMode.DRIVING,
+  							unitSystem: google.maps.DirectionsUnitSystem.METRIC
+					    };
+					    
+					    directionsService.route(request, function(result, status) { 
+					        if (status == google.maps.DirectionsStatus.OK) {
+					            // var path = result.routes[0].overview_path;
+					            
+					            dirRenderer.setDirections(result);
+					            
+					            // $(path)....
+					            // $(path).each(function(index, item) {
+					            $(dirRenderer).each(function(index, item) {
+					                polyline.getPath().push(item);
+					                // bounds.extend(item);
+					            })
+					            
+					            polyline.setMap(map);
+					            map.fitBounds(bounds); // auto zoom
+					        }
+					    });
+					   	
+			  		}
+			  		
+			  		for (var i=0; i < destination.length; i++){
+			  			console.log(origin[i] + " => "+ destination[i]);
+				    	drawTheLine(origin[i], destination[i]);
+				    }
 				});
 			}
 		}	
@@ -127,14 +178,6 @@ angular.module('BzApp')
 					// for(var i = 1; i < r.tapCoordinate.length; i++){
 					// 	dest.push(new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]));
 					// }
-					
-					// TODO: use the haversine to rearrange the destination
-					var distance = [];
-					for(var i = 0; i < dest.length; i++){
-						distance.push(h_haversine.getDistance([ori[i]["A"], ori[i]["F"]], [dest[i]["A"], dest[i]["F"]]));
-					}
-					
-					
 					
 					//distance.sort(function(a, b){return a-b});
 					
