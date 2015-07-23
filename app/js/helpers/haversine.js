@@ -26,7 +26,7 @@ angular.module('BzApp')
             var R = 6372.8;
             
             // initialize radians version of the coordinate
-            var lat1 = startPos["A"], lon1 = startPos["F"], lat2 = targetPos[0], lon2 = targetPos[1];
+            var lat1 = startPos[0], lon1 = startPos[1], lat2 = targetPos[0], lon2 = targetPos[1];
             var dLat = (lat2 - lat1).toRad();
             var dLon = (lon2 - lon1).toRad();
             // Implement the HAVERSINE

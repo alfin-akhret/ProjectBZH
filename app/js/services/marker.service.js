@@ -35,10 +35,76 @@ angular.module('BzApp')
 		
 	})
 	
-
+	// cable line refine
+	.factory('s_cable2', function(s_tap, h_haversine){
+		return {
+			placeCableRouteMarker: function(map){
+				
+				
+				// get tap coordinate
+				s_tap.tapCoordinate().then(function(r){
+					// // set origin var
+					// var origin = [];
+					// // set destination var
+					// var destination = [];
+					var amountOfTap = r.tapCoordinate.length;
+					
+					var drawLine = function myself(n, originToTest){
+						if(n < (amountOfTap - 1)){
+							var distance = [];
+							var co = originToTest;
+							
+							// remove originToTest from tap array
+							var index = r.tapCoordinate.indexOf(co);
+							if(index > -1){
+								r.tapCoordinate.splice(index, 1);
+							}
+							
+							// test the origin against the rest of tap list
+							// to find nearest tap
+							for(var i = 0; i < r.tapCoordinate.length; i++){
+								distance.push(h_haversine.getDistance(co, r.tapCoordinate[i]));	
+							}
+							// calculate minimum distance
+							Array.min = function( array ){
+				                return Math.min.apply( Math, array );
+				            };
+				            
+				            var minimum = (Array.min(distance)); // in meters with two decimal points
+				            var nearestTap = r.tapCoordinate[distance.indexOf(minimum)];
+				            
+				            // draw line from tested cordinate to nearestTap
+				            var origin = new google.maps.LatLng(co[0], co[1]);
+				            var destination = new google.maps.LatLng(nearestTap[0], nearestTap[1]);
+				            var CableRoute = new google.maps.Polyline({
+				            	path: [origin, destination],
+				            	strokeColor: '#00B7FF',
+						        strokeWeight: 10,
+						        strokeOpacity: .65,
+						        map:map
+				            });
+				            
+				            console.log("iteration: " + n + "target left:" + r.tapCoordinate.length);
+				            console.log("origin: "+co+ " dest: "+ nearestTap);
+				            
+				            
+				            // the nearest tap as the next origin to test
+				            co = nearestTap;
+							
+							return myself(n+1, co);
+						}
+					}
+					
+					drawLine(0, r.tapCoordinate[0]);
+			  	
+				});
+			}
+		}	
+	})
+	
 	
 	// cable line.
-	.factory('s_cable', function(s_tap){
+	.factory('s_cable', function(s_tap, h_haversine){
 		
 		return {
 			placeCableRouteMarker: function(map){
@@ -46,9 +112,6 @@ angular.module('BzApp')
 				s_tap.tapCoordinate().then(function(r){
 					var ori= [];
 					var dest = [];
-				
-					// http://jsfiddle.net/cnwMG/7/
-					var bounds = new google.maps.LatLngBounds();
 				
 					// generate origin coordinate 
 					for(var i = 0; i < r.tapCoordinate.length; i++){
@@ -59,6 +122,22 @@ angular.module('BzApp')
 					for(var i = 1; i < r.tapCoordinate.length; i++){
 						dest.push(new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]));
 					}
+					
+					// generate destination coordinate
+					// for(var i = 1; i < r.tapCoordinate.length; i++){
+					// 	dest.push(new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]));
+					// }
+					
+					// TODO: use the haversine to rearrange the destination
+					var distance = [];
+					for(var i = 0; i < dest.length; i++){
+						distance.push(h_haversine.getDistance([ori[i]["A"], ori[i]["F"]], [dest[i]["A"], dest[i]["F"]]));
+					}
+					
+					
+					
+					//distance.sort(function(a, b){return a-b});
+					
 					
 					for (var i=0; i < dest.length; i++){
 				    	calcRoute(ori[i], dest[i]);
@@ -73,6 +152,9 @@ angular.module('BzApp')
 					        strokeOpacity: .65,
 					        map:map
 					    });
+					    
+					    // http://jsfiddle.net/cnwMG/7/
+						var bounds = new google.maps.LatLngBounds();
 					    
 					   var directionsService = new google.maps.DirectionsService();
 					   var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
@@ -174,8 +256,11 @@ angular.module('BzApp')
 						var distance = [];
 						for(var i = 0; i < r.tapCoordinate.length; i++){
 							// call the r_haversine helper
-							distance.push(h_haversine.getDistance(pos, r.tapCoordinate[i]));
+							distance.push(h_haversine.getDistance([pos["A"], pos["F"]], r.tapCoordinate[i]));
 						}
+						// console.log();
+						// console.log(r.tapCoordinate[0]);
+						
 						// calculate minimum distance
 						Array.min = function( array ){
 			                return Math.min.apply( Math, array );
