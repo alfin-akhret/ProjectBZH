@@ -10,17 +10,10 @@ angular.module('BzApp')
 		// place TAP's marker on map
 		this.placeTapMarker = function(map){
 			
-			var tapIcon = 'app/images/calendar-blue-circle.png';
+			// var tapIcon = 'app/images/calendar-blue-circle.png';
 			
 			this.tapCoordinate().then(function(r){
 				for(var tap in r.tapCoordinate){
-						
-					// new google.maps.Marker({
-		   //    			position: new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]),
-	    //                 map: map,
- 	   //                 icon:tapIcon,
- 	   //                 title: r.tapCoordinate[i].toString()
-		   //         });
 		   
 		   			var markerOptions = {
 		   				strokeOpacity: 0,
@@ -29,7 +22,7 @@ angular.module('BzApp')
 						fillOpacity: 1,
 						map: map,
 						center: new google.maps.LatLng(r.tapCoordinate[tap][0], r.tapCoordinate[tap][1]),
-						radius: 5
+						radius: 3.5
 		   			}
 		   			new google.maps.Circle(markerOptions);
 				}
@@ -48,7 +41,7 @@ angular.module('BzApp')
 	})
 	
 	// coverage radius
-	.factory('s_radius', function(s_tap){
+	.factory('s_radius', function(s_tap, s_circle){
 		return{
 			placeRadius: function(map){
 				// get s_tap position
@@ -57,36 +50,12 @@ angular.module('BzApp')
 					
 					// since we cannot combine google.maps.Circle without flushing their overlap alpha
 					// we must create cicrle manually using below algorithm
-					// TODO: put this on helpers
-					function drawCircle(point, radius, dir)
-					{ 
-					    var d2r = Math.PI / 180;   // degrees to radians 
-					    var r2d = 180 / Math.PI;   // radians to degrees 
-					    var earthsradius = 3963; // 3963 is the radius of the earth in miles
-					    var points = 32; 
-					
-					    // find the raidus in lat/lon 
-					    var rlat = (radius / earthsradius) * r2d; 
-					    var rlng = rlat / Math.cos(point.lat() * d2r); 
-					
-					    var extp = new Array(); 
-					    if (dir==1) {var start=0;var end=points+1} // one extra here makes sure we connect the
-					    else{var start=points+1;var end=0}
-					    for (var i=start; (dir==1 ? i < end : i > end); i=i+dir)  
-					    {
-					        var theta = Math.PI * (i / (points/2)); 
-					        var ey = point.lng() + (rlng * Math.cos(theta)); // center a + radius x * cos(theta) 
-					        var ex = point.lat() + (rlat * Math.sin(theta)); // center b + radius y * sin(theta) 
-					        extp.push(new google.maps.LatLng(ex, ey));
-					    }
-					    return extp;
-					}
 					
 					// create circle for each tap
 					var radius = [];
 					for(var i = 0; i < r.tapCoordinate.length; i++){
 						var tap = new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]);
-						radius.push(drawCircle(tap, 0.025, 1));
+						radius.push(s_circle.drawCircle(tap, 0.025, 1));
 					}
 					
 					// combined all circles
@@ -173,7 +142,7 @@ angular.module('BzApp')
 			  			
 			  			var polyline = new google.maps.Polyline({
 					        path: [],
-					        strokeColor: '#00B7FF',
+					        strokeColor: '#f48226',
 					        strokeWeight: 10,
 					        // strokeOpacity: 1,
 					        map:map
@@ -259,8 +228,8 @@ angular.module('BzApp')
 				    function calcRoute(source,destination){
 						var polyline = new google.maps.Polyline({
 					        path: [],
-					        strokeColor: '#00B7FF',
-					        strokeWeight: 10,
+					        strokeColor: '#f48226',
+					        strokeWeight: 5,
 					        strokeOpacity: .65,
 					        map:map
 					    });
@@ -282,13 +251,13 @@ angular.module('BzApp')
 					    
 					    directionsService.route(request, function(result, status) { 
 					        if (status == google.maps.DirectionsStatus.OK) {
-					            // var path = result.routes[0].overview_path;
+					            var path = result.routes[0].overview_path;
 					            
-					            dirRenderer.setDirections(result);
+					            // dirRenderer.setDirections(result);
 					            
 					            // $(path)....
-					            // $(path).each(function(index, item) {
-					            $(dirRenderer).each(function(index, item) {
+					            $(path).each(function(index, item) {
+					            // $(dirRenderer).each(function(index, item) {
 					                polyline.getPath().push(item);
 					                // bounds.extend(item);
 					            })

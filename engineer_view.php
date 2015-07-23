@@ -48,6 +48,7 @@
 <script type="text/javascript" src="app/js/services/marker.service.js"></script>
 <script type="text/javascript" src="app/js/services/map.service.js"></script>
 <script type="text/javascript" src="app/js/helpers/haversine.js"></script>
+<script type="text/javascript" src="app/js/helpers/circle.js"></script>
 <script type="text/javascript" src="app/js/controllers/main.ctrl.js"></script>    
 </body>
 </html>
