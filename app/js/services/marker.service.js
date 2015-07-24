@@ -58,27 +58,22 @@ angular.module('BzApp')
 						var tap = new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]);
 						radius.push(h_circle.drawCircle(tap, 0.025, 1));
 					}
+				
 					
-					// console.log(radius);
-					
-					// combined all circles
+					// set polygon options
+					// and combine all circles into single polygon
 					var joined = new google.maps.Polygon({
 						paths: radius,
 		                 strokeColor: "#f48226",
-		                 strokeOpacity: 0.35,
+		                 strokeOpacity: 0.0,
 		                 strokeWeight: 0,
 		                 fillColor: "#f48226",
-		                 fillOpacity: 0.35,
+		                 fillOpacity: 0.5,
 		                 clickable: false
 					});
-					
 					joined.setMap(map);
 					
-					google.maps.Circle.prototype.contains = function(latLng) {
-		 				return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
-					}
-						
-					
+					// click events
 					google.maps.event.addListener(map, 'click', function(e) {
 					    if (google.maps.geometry.poly.containsLocation(e.latLng, joined)) {
 					      console.log("you are coveraged my man!");

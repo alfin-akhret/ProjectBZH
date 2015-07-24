@@ -16,15 +16,25 @@
             <div class="col-md-4">
                 <img src="app/images/logo-biznet-home.png" class="logo"></img>
                 
-                <p>Enter your address or click on the map <br>to see if you are within Biznet Home coverage area</p>
+                <p>Enter your address or click on the map <br>to see if you are within our coverage area.</p>
             
                 <!-- search form -->
-                <div id="search_form">
+                <div>
                     <form>
+                      <div class="form-group">
+                        <label for="">Street address</label><br>
                         <textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls">{{searchForm.address}}</textarea>
-                        <!--<br><button class="btn btn-warning">Search</button>-->
+                      </div>
+                      <div class="form-group">
+                          <label for="">Residential type</label><br>
+                          <input type="radio" name="residentialType"/> Apartment
+                          <input type="radio" name="residentialType"/> House
+                      </div>
+                      <button type="submit" class="btn btn-warning">Submit</button>
                     </form>
                 </div>
+                
+                
                 
             </div>
             

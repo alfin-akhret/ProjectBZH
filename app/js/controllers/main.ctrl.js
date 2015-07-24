@@ -17,11 +17,11 @@ angular.module('BzApp')
 		} else {
 			var map = f_map.initialize();
 			f_map.setCenterToCurrentUserPosition(map);
-			f_map.showCoverageArea(map); // TODO: this should be called based on user input
+			// f_map.showCoverageArea(map); // TODO: this should be called based on user input
 			f_map.showCoverageRadius(map);
 			f_map.addClickEvent(map, cb);
 			f_map.activateSearchBox(map);
-			f_map.showTaps(map);
+			// f_map.showTaps(map);
 		}
 		
 		// click event callback
