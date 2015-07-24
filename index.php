@@ -22,8 +22,13 @@
                 <div>
                     <form>
                       <div class="form-group">
-                        <label for="">Street address</label><br>
-                        <textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls">{{searchForm.address}}</textarea>
+                        <label for="">Search</label><br>
+                        <input type="text" name="" id="pac-input"/>
+                      </div>
+                      <div class="form-group">
+                        {{ searchForm.address }}
+                        <!--<textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls" disabled>{{searchForm.address}}</textarea>-->
+                        <input type="hidden" name="address" value="{{searchForm.address}}" class="controls"/>
                       </div>
                       <div class="form-group">
                           <label for="">Residential type</label><br>

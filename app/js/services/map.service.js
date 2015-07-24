@@ -219,7 +219,7 @@ angular.module('BzApp')
 		
 		
 		// search box
-		this.activateSearchBox = function(map){
+		this.activateSearchBox = function(map, callback){
 			// Create the search box and link it to the UI element.
 			  var input = /** @type {HTMLInputElement} */(
 			      document.getElementById('pac-input'));
@@ -252,9 +252,10 @@ angular.module('BzApp')
 			
 				  infowindow.setContent(places[0].formatted_address);
 				  infowindow.open(map, searchMarker);
+				  
+				  callback(places[0].formatted_address);
 				 
 			      markers.push(searchMarker);
-			      
 			
 			      bounds.extend(place.geometry.location);
 			    }
