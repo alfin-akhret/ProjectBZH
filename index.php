@@ -26,9 +26,23 @@
             </form> -->
         </div>
         
+        
+        
         <!-- search -->
         <p>Enter your address or click on the map <br>to see if you are within Biznet Home coverage area</p>
-        <input id="pac-input" class="controls" type="text" placeholder="Enter your address">
+        
+        <!-- search form -->
+        <div id="search_form">
+            <form>
+                <!--<input type="text" name="street" ng-model="searchForm.street" placeholder="street"/>-->
+                <!--<input type="text" name="streetNum" ng-model="searchForm.streetNum" placeholder="street number" value="{{searchForm.streetNum}}"/>-->
+                <!--<input type="text" name="region" ng-model="searchForm.region" placeholder="region"/>-->
+                <textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls">{{searchForm.address}}</textarea>
+                <button>Search</button>
+            </form>
+        </div>
+        
+        <!--<input id="pac-input" class="controls" type="text" placeholder="Enter your address">-->
         <div id="map-canvas"></div>
         
         

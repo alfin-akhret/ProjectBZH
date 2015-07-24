@@ -171,7 +171,7 @@ angular.module('BzApp')
 			s_radius.placeRadius(map);
 		};
 		
-		this.addClickEvent = function(map){
+		this.addClickEvent = function(map, callback){
 			
 			// TODO: refactor to new document :)
 			
@@ -188,6 +188,12 @@ angular.module('BzApp')
 			    		
 				        infowindow.setContent(results[0].formatted_address);
 				        infowindow.open(map, marker);
+				        console.log(results[0]);
+				        
+				        // callback param: region, street, street number
+				        // callback(results[0].address_components[1].long_name, results[0].address_components[0].long_name);
+				        callback(results[0].formatted_address);
+				        
 				      } else {
 				        window.alert('No results found');
 				      }
@@ -200,7 +206,7 @@ angular.module('BzApp')
 			// click event
 		    google.maps.event.addListener(map, 'click', function(event) {
 		    	placeMarker(event.latLng, marker, map, geocoder, infowindow);
-			});
+		    });
 			
 			// drag event
 			google.maps.event.addListener(marker, 'dragend', function() {

@@ -1,6 +1,9 @@
 'use strict';
 angular.module('BzApp')
 	.controller('MainController', function($scope, f_map, h_haversine){
+		// search form component
+		$scope.searchForm = {};
+		
 		// check user's role
 		if (typeof userRole !== 'undefined') {
 			$scope.userRole = userRole;
@@ -16,9 +19,21 @@ angular.module('BzApp')
 			f_map.setCenterToCurrentUserPosition(map);
 			f_map.showCoverageArea(map); // TODO: this should be called based on user input
 			f_map.showCoverageRadius(map);
-			f_map.addClickEvent(map);
+			f_map.addClickEvent(map, cb);
 			f_map.activateSearchBox(map);
 		}
+		
+		// click event callback
+		function cb(a){
+			$scope.$apply(function(){			// important!
+				// $scope.searchForm.street = s;
+				// $scope.searchForm.streetNum = sn;
+				// $scope.searchForm.region = r;
+				$scope.searchForm.address = a;
+
+			});
+		}
+		
 		
 		
 		// set install location
