@@ -128,11 +128,13 @@ angular.module('BzApp')
 	// });
 	
 	.service('f_map', function(s_userPosition, s_tap, s_cable, s_radius, s_nearestTap){
+		// common vars
 		var marker = new google.maps.Marker({
 				draggable: true,
 				// map: map,
 				// id:1
 		});
+		var infowindow = new google.maps.InfoWindow();
 		
 		this.initialize = function(){
 			var centerPos = new google.maps.LatLng(-6.2297465,106.829518);
@@ -176,7 +178,7 @@ angular.module('BzApp')
 			// TODO: refactor to new document :)
 			
 			var geocoder = new google.maps.Geocoder();
-		    var infowindow = new google.maps.InfoWindow();
+		    
 		    marker.setMap(map);
 		    
 		    function placeMarker(location){
@@ -188,7 +190,6 @@ angular.module('BzApp')
 			    		
 				        infowindow.setContent(results[0].formatted_address);
 				        infowindow.open(map, marker);
-				        console.log(results[0]);
 				        
 				        // callback param: region, street, street number
 				        // callback(results[0].address_components[1].long_name, results[0].address_components[0].long_name);
@@ -233,7 +234,6 @@ angular.module('BzApp')
 			  // pick list. Retrieve the matching places for that item.
 			  google.maps.event.addListener(searchBox, 'places_changed', function() {
 			    var places = searchBox.getPlaces();
-			    
 			
 			    if (places.length == 0) {
 			      return;
@@ -250,7 +250,9 @@ angular.module('BzApp')
 			      
 				  searchMarker.set('position', place.geometry.location);
 				  searchMarker.set('map', map);
-				  
+			
+				  infowindow.setContent(places[0].formatted_address);
+				  infowindow.open(map, searchMarker);
 				 
 			      markers.push(searchMarker);
 			      
