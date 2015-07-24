@@ -21,6 +21,7 @@ angular.module('BzApp')
 			f_map.showCoverageRadius(map);
 			f_map.addClickEvent(map, cb);
 			f_map.activateSearchBox(map);
+			f_map.showTaps(map);
 		}
 		
 		// click event callback

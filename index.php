@@ -3,49 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Labs</title>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&sensor=true&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=geometry,places&sensor=true"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" />
-    <style type="text/css">
-        #map-canvas {width:100%; height:500px;}
-    </style>
-    
-    
-    
+    <link rel="stylesheet" href="app/css/style.css" type="text/css" />
 </head>
 <body ng-app="BzApp">
     
     <div id="wrapper" ng-controller="MainController">
         
-        <div>
-            <!-- todo: make it modal -->
-            <!-- 
-            <form name="login-form" action="app/backend/login.php" method="post">
-                <input type="text" name="username"/>
-                <input type="text" name="password"/>
-                <button type="submit">Login</button>
-            </form> -->
+        <div class="row">
+            <!-- search -->
+            <div class="col-md-4">
+                <img src="app/images/logo-biznet-home.png" class="logo"></img>
+                
+                <p>Enter your address or click on the map <br>to see if you are within Biznet Home coverage area</p>
+            
+                <!-- search form -->
+                <div id="search_form">
+                    <form>
+                        <textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls">{{searchForm.address}}</textarea>
+                        <!--<br><button class="btn btn-warning">Search</button>-->
+                    </form>
+                </div>
+                
+            </div>
+            
+            <!-- the map -->
+            <div id="map-canvas" class="col-md-8"></div>
+            
         </div>
-        
-        
-        
-        <!-- search -->
-        <p>Enter your address or click on the map <br>to see if you are within Biznet Home coverage area</p>
-        
-        <!-- search form -->
-        <div id="search_form">
-            <form>
-                <!--<input type="text" name="street" ng-model="searchForm.street" placeholder="street"/>-->
-                <!--<input type="text" name="streetNum" ng-model="searchForm.streetNum" placeholder="street number" value="{{searchForm.streetNum}}"/>-->
-                <!--<input type="text" name="region" ng-model="searchForm.region" placeholder="region"/>-->
-                <textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls">{{searchForm.address}}</textarea>
-                <button>Search</button>
-            </form>
-        </div>
-        
-        <!--<input id="pac-input" class="controls" type="text" placeholder="Enter your address">-->
-        <div id="map-canvas"></div>
-        
-        
     
     </div>
     

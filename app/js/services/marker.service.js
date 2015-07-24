@@ -46,6 +46,7 @@ angular.module('BzApp')
 			placeRadius: function(map){
 				// get s_tap position
 				var circles = [];
+				
 				s_tap.tapCoordinate().then(function(r){
 					
 					// since we cannot combine google.maps.Circle without flushing their overlap alpha
@@ -57,6 +58,8 @@ angular.module('BzApp')
 						var tap = new google.maps.LatLng(r.tapCoordinate[i][0], r.tapCoordinate[i][1]);
 						radius.push(h_circle.drawCircle(tap, 0.025, 1));
 					}
+					
+					// console.log(radius);
 					
 					// combined all circles
 					var joined = new google.maps.Polygon({
@@ -70,6 +73,20 @@ angular.module('BzApp')
 					});
 					
 					joined.setMap(map);
+					
+					google.maps.Circle.prototype.contains = function(latLng) {
+		 				return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
+					}
+						
+					
+					google.maps.event.addListener(map, 'click', function(e) {
+					    if (google.maps.geometry.poly.containsLocation(e.latLng, joined)) {
+					      console.log("you are coveraged my man!");
+					    } else {
+					      console.log("not coverage");
+					    }
+					});
+					
 				});
 			}
 		};		

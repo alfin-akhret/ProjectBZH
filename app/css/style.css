@@ -1,0 +1,45 @@
+body{
+    font-family: Arimo, sans-serif;
+    font-size: 14px;
+    color: rgb(51, 51, 51);
+}
+
+#map-canvas {height:500px;}
+
+#wrapper{
+    width:90%;
+    margin: 5% auto;
+}
+
+#header{
+    padding: 20px 0;
+}
+
+#pac-input, #map-canvas{ 
+    background:#FFFFFF;
+    color:#6E6E6E;
+    border:1px solid #CFCFCF;
+    border-radius:2px ;
+    font-size:16px ;
+    
+    padding: 10px ;
+    box-shadow: -1px 0px 8px #DCDCDC;
+   
+    -webkit-box-shadow: -1px 0px 8px #DCDCDC; 
+    -moz-box-shadow: -1px 0px 8px #DCDCDC; 
+}
+
+#pac-input{
+    width: 300px ;
+    height: 125px;
+}
+
+.logo, p{
+    margin-bottom: 7%;
+}
+
+textarea{
+    margin-bottom:2.5%;
+}
+
+

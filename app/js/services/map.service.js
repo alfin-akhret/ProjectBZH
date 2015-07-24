@@ -247,7 +247,6 @@ angular.module('BzApp')
 			    var bounds = new google.maps.LatLngBounds();
 			    for (var i = 0, place; place = places[i]; i++) {
 			
-			      
 				  searchMarker.set('position', place.geometry.location);
 				  searchMarker.set('map', map);
 			
