@@ -211,25 +211,46 @@ angular.module('BzApp')
 				});
 				return d.promise; 
 		};
-		
+
 		this.setLocation = function(map){
 			var userIcon = 'app/images/residential-places.png';
 					
-					this.getLocation().then(function(r){
-						for(var i = 0; i < r.length - 1;i++ ){
-							var pos = new google.maps.LatLng(r[i][3], r[i][4]); // need refactoring when used with real DB
-							new google.maps.Marker({
-								position: pos,
-								map: map,
-								icon: userIcon,
-								title: "Install location" + i
-							});
-							
-							// get nearest tap
-							s_nearestTap.getDistance(map, pos);
-						}	
+			this.getLocation().then(function(r){
+						
+				for(var i = 0; i < r.length;i++ ){
+					var pos = new google.maps.LatLng(r[i][3], r[i][4]); // need refactoring when used with real DB
+					var marker = new google.maps.Marker({
+						position: pos,
+						map: map,
+						icon: userIcon
 					});
-		}	
+					
+					
+					// google.maps.event.addListener(marker, 'click', function(){
+						
+					// }).then(function(){});
+					
+					
+							 
+					// get nearest tap
+					s_nearestTap.getDistance(map, pos);
+				}
+			
+			});
+		};
+		
+		// this.addListener = function(map, marker, pos){
+		// 			// google.maps.event.addListener(marker, 'click', function() {
+		// 			//     infowindows.push(new google.maps.InfoWindow({
+		// 			//         map: map,
+		// 			//         position: pos,
+		// 			//         content: "tes"
+		// 			//     }));
+		// 		 //   });
+		// };	
+		
+		
+		
 	})
 	
 	// get nearest TAP
@@ -287,11 +308,11 @@ angular.module('BzApp')
 						
 						// display info window
 						// containing target distance information
-						var infowindow = new google.maps.InfoWindow({
-					        map: map,
-					        position: new google.maps.LatLng(target[0], target[1]),
-					        content: 'Closest TAP: ' + minimum + ' m'
-					      });
+						// var infowindow = new google.maps.InfoWindow({
+					 //       map: map,
+					 //       position: new google.maps.LatLng(target[0], target[1]),
+					 //       content: 'Closest TAP: ' + minimum + ' m'
+					 //     });
 						
 					});
 				// });

@@ -6,9 +6,7 @@
     <title>Engineer View</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" />
-    <style type="text/css">
-        #map-canvas {width:100%; height:500px;}
-    </style>
+    <link rel="stylesheet" href="app/css/style.css" type="text/css" />
 
     <!-- this is stupid -->
     <script type="text/javascript">
@@ -17,7 +15,7 @@
 
 </head>
 <body ng-app="BzApp">
-    <div ng-controller="MainController">
+    <div id="wrapper" ng-controller="MainController">
         <!-- dummy session handler -->
         <?php
             if($_SESSION['role'] != "engineer"){
@@ -25,19 +23,22 @@
             }
         ?>
         
+        <div class="row">
+            <div class="col-md-1 col-md-offset-11 login-btn">
+                <a href="app/backend/logout.php"><span class="glyphicon glyphicon-lock" aria-hidden="true" ng-click="toggleModal()"></span></a>    
+            </div>
+        </div>
         
-        <h1>Engineer View</h1>
-        <a href="app/backend/logout.php">Logout</a>
-        
-        <!-- dummy test for installation location -->
-        <form ng-submit="setInstallationLocation(coordinate)">
-            <input type="text" name="lat" placeholder="lat" ng-model="coordinate.Lat"/>
-            <input type="text" name="lng" placeholder="lon" ng-model="coordinate.Lng"/>
-            <button type="submit">Set install location</button>
-        </form>
-        
-        
-        <div id="map-canvas"></div>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="app/images/logo-biznet-home.png" class="logo"></img><br>
+                Tap info: <br>
+                Install location info: <br>
+            </div>
+            
+            <!-- the map -->
+            <div id="map-canvas" class="col-md-8"></div>
+        </div>
         
     </div>
     
