@@ -254,7 +254,7 @@ angular.module('BzApp')
 				  infowindow.setContent(places[0].formatted_address);
 				  infowindow.open(map, searchMarker);
 				  
-				  callback(places[0].formatted_address);
+				  callback(places[0].formatted_address, places[0].geometry.location);
 				 
 			      markers.push(searchMarker);
 			

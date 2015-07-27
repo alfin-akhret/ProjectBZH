@@ -17,5 +17,7 @@
     fputcsv($fp, $list);
     
     fclose($fp);
+    
+    header("Location: ../index.php");
 
 ?>
