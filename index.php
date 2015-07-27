@@ -40,6 +40,8 @@
                             {{ searchForm.address }}
                             <!--<textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls" disabled>{{searchForm.address}}</textarea>-->
                             <input type="hidden" name="address" value="{{searchForm.address}}" class="controls"/>
+                            <input type="hidden" name="lat" value="{{searchForm.lat}}" class="controls"/>
+                            <input type="hidden" name="lon" value="{{searchForm.lon}}" class="controls"/>
                           </div>
                           <div class="form-group">
                               <label for="">Residential type</label><br>

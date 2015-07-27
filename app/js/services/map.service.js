@@ -193,7 +193,8 @@ angular.module('BzApp')
 				        
 				        // callback param: region, street, street number
 				        // callback(results[0].address_components[1].long_name, results[0].address_components[0].long_name);
-				        callback(results[0].formatted_address);
+				 
+				        callback(results[0].formatted_address, results[0].geometry.location);
 				        
 				      } else {
 				        window.alert('No results found');

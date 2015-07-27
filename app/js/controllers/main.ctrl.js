@@ -40,12 +40,14 @@ angular.module('BzApp')
 		}
 		
 		// click event callback
-		function cb(a){
+		function cb(a, latLng){
 			$scope.$apply(function(){			// important!
 				// $scope.searchForm.street = s;
 				// $scope.searchForm.streetNum = sn;
 				// $scope.searchForm.region = r;
 				$scope.searchForm.address = a;
+				$scope.searchForm.lat = latLng['A'];
+				$scope.searchForm.lon = latLng['F'];
 				$scope.displayResult = true;
 			});
 		}
