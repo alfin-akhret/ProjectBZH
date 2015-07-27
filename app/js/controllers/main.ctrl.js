@@ -1,6 +1,7 @@
 'use strict';
 angular.module('BzApp')
 	.controller('MainController', function($scope, f_map, h_haversine){
+		
 		// search form component
 		$scope.searchForm = {};
 		
@@ -10,10 +11,17 @@ angular.module('BzApp')
 			$scope.displayResult = false;	
 		};
 		
+		// modal box
+		$scope.showModal = false;
+	    $scope.toggleModal = function(){
+	        $scope.showModal = !$scope.showModal;
+	    };
+		
 		
 		// check user's role
 		if (typeof userRole !== 'undefined') {
 			$scope.userRole = userRole;
+			console.log(userRole);
 			
 			var map = f_map.initialize();
 			f_map.setCenterToCurrentUserPosition(map);

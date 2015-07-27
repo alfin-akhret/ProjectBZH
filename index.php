@@ -10,6 +10,11 @@
 <body ng-app="BzApp">
     
     <div id="wrapper" ng-controller="MainController">
+        <div class="row">
+            <div class="col-md-1 col-md-offset-11 login-btn">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true" ng-click="toggleModal()"></span>    
+            </div>
+        </div>
         
         <div class="row">
             <!-- search -->
@@ -46,14 +51,30 @@
                     </form>
                 </div>
                 
-                
-                
             </div>
             
             <!-- the map -->
             <div id="map-canvas" class="col-md-8"></div>
             
         </div>
+        
+      
+        
+        
+        <!-- login modal for engineer -->
+        <modal title="Login form" visible="showModal">
+            <form role="form" name="login-form" action="app/backend/login.php" method="post">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter username" name="username"/>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" name="password"/>
+              </div>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+          </modal>
     
     </div>
     
@@ -68,6 +89,7 @@
     <script type="text/javascript" src="app/js/helpers/haversine.js"></script>
     <script type="text/javascript" src="app/js/helpers/circle.js"></script>
     <script type="text/javascript" src="app/js/controllers/main.ctrl.js"></script>
+    <script type="text/javascript" src="app/js/directives/modal.directives.js"></script>
     
 </body>
 </html>
