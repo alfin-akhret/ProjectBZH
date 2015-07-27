@@ -25,14 +25,14 @@
             
                 <!-- search form -->
                 <div>
-                    <form>
+                    <form method="post" action="app/backend/inquiries.php">
                       <div class="form-group">
                         <label for="">Search</label><br>
                         <input type="text" name="" id="pac-input" ng-model="searchForm.address" ng-change="resetDisplayResult()"/>
                       </div>
                       <div class="form-group">
                         <label for="">Location details (landmark/floor/etc)</label><br>
-                        <input type="text" name="" id="location-details"/>
+                        <input type="text" name="location-details" id="location-details"/>
                       </div>
                       <div ng-if="displayResult == true">
                           <div class="form-group">
@@ -43,8 +43,8 @@
                           </div>
                           <div class="form-group">
                               <label for="">Residential type</label><br>
-                              <input type="radio" name="residentialType"/> Apartment
-                              <input type="radio" name="residentialType"/> House
+                              <input type="radio" name="residentialType" value="aprtment"/> Apartment
+                              <input type="radio" name="residentialType" value="house"/> House
                           </div>
                       </div>
                       <button type="submit" class="btn btn-warning">Submit</button>
