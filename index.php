@@ -23,7 +23,7 @@
                     <form>
                       <div class="form-group">
                         <label for="">Search</label><br>
-                        <input type="text" name="" id="pac-input"/>
+                        <input type="text" name="" id="pac-input" ng-model="searchForm.address" ng-change="resetDisplayResult()"/>
                       </div>
                       <div ng-if="displayResult == true">
                           <div class="form-group">

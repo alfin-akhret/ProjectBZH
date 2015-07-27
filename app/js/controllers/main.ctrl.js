@@ -6,6 +6,10 @@ angular.module('BzApp')
 		
 		// display result
 		$scope.displayResult = false;
+		$scope.resetDisplayResult = function(){
+			$scope.displayResult = false;	
+		};
+		
 		
 		// check user's role
 		if (typeof userRole !== 'undefined') {
