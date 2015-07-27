@@ -25,6 +25,10 @@
                         <label for="">Search</label><br>
                         <input type="text" name="" id="pac-input" ng-model="searchForm.address" ng-change="resetDisplayResult()"/>
                       </div>
+                      <div class="form-group">
+                        <label for="">Location details (landmark/floor/etc)</label><br>
+                        <input type="text" name="" id="location-details"/>
+                      </div>
                       <div ng-if="displayResult == true">
                           <div class="form-group">
                             <label for="">Street address</label><br>
@@ -38,9 +42,8 @@
                               <input type="radio" name="residentialType"/> House
                           </div>
                       </div>
-                      <!--<button type="submit" class="btn btn-warning">Submit</button>-->
+                      <button type="submit" class="btn btn-warning">Submit</button>
                     </form>
-                    
                 </div>
                 
                 
