@@ -202,30 +202,43 @@ angular.module('BzApp')
 	})
 	
 	// install location
-	.service('s_install', function(){
-		this.setLocation = function(map, lat, lng){
-			var userIcon = 'app/images/maps_street_view.png';
+	.service('s_install', function($http, $q, s_nearestTap){
+		this.getLocation = function(){
+			var d = $q.defer();
+				$http.get("app/backend/installLocation.php")			// TODO: this should called backend scripts
+					.success(function(response){
+						d.resolve(response);
+				});
+				return d.promise; 
+		};
+		
+		this.setLocation = function(map){
+			var userIcon = 'app/images/residential-places.png';
 					
-					var pos = new google.maps.LatLng(lat, lng);
-					
-					new google.maps.Marker({
-						position: pos,
-						map: map,
-						icon: userIcon,
-						title: "Install location"
+					this.getLocation().then(function(r){
+						for(var i = 0; i < r.length - 1;i++ ){
+							var pos = new google.maps.LatLng(r[i][3], r[i][4]); // need refactoring when used with real DB
+							new google.maps.Marker({
+								position: pos,
+								map: map,
+								icon: userIcon,
+								title: "Install location" + i
+							});
+							
+							// get nearest tap
+							s_nearestTap.getDistance(map, pos);
+						}	
 					});
-					
-					map.setCenter(pos);
 		}	
 	})
 	
 	// get nearest TAP
 	.service('s_nearestTap', function(h_haversine, s_tap){
-		this.getDistance = function(map, lat, lng){
+		this.getDistance = function(map, pos){
 			// if(navigator.geolocation){
 				// navigator.geolocation.getCurrentPosition(function(position){
 					// var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-					var pos = new google.maps.LatLng(lat, lng);
+					// var pos = new google.maps.LatLng(lat, lng);
 					
 					// var pos = new google.maps.LatLng(-6.2878500,106.8059844);
 					
@@ -234,7 +247,8 @@ angular.module('BzApp')
 						var distance = [];
 						for(var i = 0; i < r.tapCoordinate.length; i++){
 							// call the r_haversine helper
-							distance.push(h_haversine.getDistance([pos["A"], pos["F"]], r.tapCoordinate[i]));
+							// distance.push(h_haversine.getDistance([pos["A"], pos["F"]], r.tapCoordinate[i]));
+							distance.push(h_haversine.getDistance([pos['A'], pos['F']], r.tapCoordinate[i]));
 						}
 						// console.log();
 						// console.log(r.tapCoordinate[0]);

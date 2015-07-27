@@ -28,6 +28,7 @@ angular.module('BzApp')
 			f_map.showCoverageArea(map);
 			f_map.showCoverageRadius(map);
 			f_map.showTaps(map);
+			f_map.targetInstallLocation(map);
 			
 		} else {
 			var map = f_map.initialize();

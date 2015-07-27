@@ -127,7 +127,7 @@ angular.module('BzApp')
 	// 	};
 	// });
 	
-	.service('f_map', function(s_userPosition, s_tap, s_cable, s_radius, s_nearestTap){
+	.service('f_map', function(s_userPosition, s_tap, s_cable, s_radius, s_nearestTap, s_install){
 		// common vars
 		var marker = new google.maps.Marker({
 				draggable: true,
@@ -270,5 +270,8 @@ angular.module('BzApp')
 			
 		};
 		
+		this.targetInstallLocation = function(map){
+			s_install.setLocation(map);
+		}
 	
 	});
