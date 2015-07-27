@@ -4,6 +4,9 @@ angular.module('BzApp')
 		// search form component
 		$scope.searchForm = {};
 		
+		// display result
+		$scope.displayResult = false;
+		
 		// check user's role
 		if (typeof userRole !== 'undefined') {
 			$scope.userRole = userRole;
@@ -21,7 +24,7 @@ angular.module('BzApp')
 			f_map.showCoverageRadius(map);
 			f_map.addClickEvent(map, cb);
 			f_map.activateSearchBox(map, cb);
-			// f_map.showTaps(map);
+			f_map.showTaps(map);
 		}
 		
 		// click event callback
@@ -31,7 +34,7 @@ angular.module('BzApp')
 				// $scope.searchForm.streetNum = sn;
 				// $scope.searchForm.region = r;
 				$scope.searchForm.address = a;
-
+				$scope.displayResult = true;
 			});
 		}
 		

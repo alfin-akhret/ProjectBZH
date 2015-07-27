@@ -25,18 +25,22 @@
                         <label for="">Search</label><br>
                         <input type="text" name="" id="pac-input"/>
                       </div>
-                      <div class="form-group">
-                        {{ searchForm.address }}
-                        <!--<textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls" disabled>{{searchForm.address}}</textarea>-->
-                        <input type="hidden" name="address" value="{{searchForm.address}}" class="controls"/>
+                      <div ng-if="displayResult == true">
+                          <div class="form-group">
+                            <label for="">Street address</label><br>
+                            {{ searchForm.address }}
+                            <!--<textarea name="address" ng-model="searchForm.address" id="pac-input" class="controls" disabled>{{searchForm.address}}</textarea>-->
+                            <input type="hidden" name="address" value="{{searchForm.address}}" class="controls"/>
+                          </div>
+                          <div class="form-group">
+                              <label for="">Residential type</label><br>
+                              <input type="radio" name="residentialType"/> Apartment
+                              <input type="radio" name="residentialType"/> House
+                          </div>
                       </div>
-                      <div class="form-group">
-                          <label for="">Residential type</label><br>
-                          <input type="radio" name="residentialType"/> Apartment
-                          <input type="radio" name="residentialType"/> House
-                      </div>
-                      <button type="submit" class="btn btn-warning">Submit</button>
+                      <!--<button type="submit" class="btn btn-warning">Submit</button>-->
                     </form>
+                    
                 </div>
                 
                 
