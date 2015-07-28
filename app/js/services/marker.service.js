@@ -308,11 +308,11 @@ angular.module('BzApp')
 						
 						// display info window
 						// containing target distance information
-						// var infowindow = new google.maps.InfoWindow({
-					 //       map: map,
-					 //       position: new google.maps.LatLng(target[0], target[1]),
-					 //       content: 'Closest TAP: ' + minimum + ' m'
-					 //     });
+						var infowindow = new google.maps.InfoWindow({
+					        map: map,
+					        position: new google.maps.LatLng(target[0], target[1]),
+					        content: 'Closest TAP: ' + minimum + ' m'
+					      });
 						
 					});
 				// });
