@@ -1,7 +1,7 @@
 <?php
     
     $zip = array(
-        ["name"=>"bendungan hilir", "zip"=>[
+        ["name"=>"jakarta", "zip"=>[
             1234,5678,90554,12346    
         ]],
     );
