@@ -5,6 +5,9 @@ angular.module('BzApp')
 		// search form component
 		$scope.searchForm = {};
 		
+		// region
+		$scope.region = [1,2,3,4,5];
+		
 		// display result
 		$scope.displayResult = false;
 		$scope.resetDisplayResult = function(){
