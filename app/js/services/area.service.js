@@ -17,6 +17,36 @@ angular.module('BzApp')
 						d.resolve(response);
 				});
 				return d.promise;
-           }
+           },
+		   getCityDetail: function(selectedCity){
+				var d= $q.defer();
+				$http.get("coverage/backend/area.asp?city_id=" + selectedCity)
+					.success(function(response){
+						d.resolve(response);
+				});
+				return d.promise;
+		   },
+		   getSubDistrictDetail: function(subDistrictId){
+				
+				// get subdistrict detail based on district id and city id
+				
+				var d= $q.defer();
+				$http.get("coverage/backend/area.asp?subdistrict_id="+ subDistrictId)
+					.success(function(response){
+						d.resolve(response);
+				});
+				return d.promise;
+		   },
+		   getPropDetail: function(propId){
+				var d = $q.defer();
+				$http.get("coverage/backend/area.asp?prop_id="+ propId)
+					.success(function(response){
+						d.resolve(response);
+				});
+				return d.promise;	
+		   }
        } 
     });
+	
+	
+	

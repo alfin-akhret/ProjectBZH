@@ -13,6 +13,7 @@ angular.module('BzApp')
 			// var tapIcon = 'app/images/calendar-blue-circle.png';
 			
 			this.tapCoordinate().then(function(r){
+				
 				for(var tap in r.tapCoordinate){
 		   
 		   			var markerOptions = {
@@ -31,13 +32,27 @@ angular.module('BzApp')
 		
 		this.tapCoordinate = function(){
                 var d = $q.defer();
-				$http.get("app/dummies/taps.json")			// TODO: this should called backend scripts
+				$http.get("coverage/backend/device.asp")
 					.success(function(response){
 						d.resolve(response);
 				});
 				return d.promise;   
             };
 		
+	})
+	
+	// apartment coordinate 
+	
+	.service('s_property', function($http, $q){
+		this.getCoordinate = function(type){
+			var d = $q.defer();
+			$http.get("coverage/backend/property.asp?type=" + type)
+				.success(function(response){
+					d.resolve(response);
+				});
+			return d.promise;
+		};
+	
 	})
 	
 	
